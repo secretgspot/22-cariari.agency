@@ -1,0 +1,151 @@
+<script>
+	import { createEventDispatcher } from "svelte";
+	import { onMount, onDestroy } from "svelte";
+	import { isEmpty } from "$lib/utils/helpers.js";
+
+	export let markers;
+
+	let map, baseLayer, mclusters;
+
+	const dispatch = createEventDispatcher();
+
+	onMount(async () => {
+		const leafletModule = await import("leaflet");
+		L = leafletModule.default;
+
+		await import("./cluster.js");
+
+		// NICE CLEAR ONE!
+		// http://maps.stamen.com/
+		// https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}
+		// https://stamen-tiles-{s}.a.ssl.fastly.net/toner-hybrid/{z}/{x}/{y}{r}.{ext}
+		// https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lines/{z}/{x}/{y}{r}.{ext}
+		// https://stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}{r}.{ext}
+		baseLayer = L.tileLayer(
+			"https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.{ext}",
+			{
+				subdomains: "abcd",
+				minZoom: 15,
+				maxZoom: 18,
+				ext: "png",
+			}
+		);
+
+		mclusters = L.markerClusterGroup();
+
+		markers.forEach((item) => {
+			let marker;
+			let property_id = item.id;
+			let msl = item.msl;
+			let property_for = item.property_for;
+			let lan = item.location.lat;
+			let lon = item.location.lng;
+
+			if (!isEmpty(lan) && !isEmpty(lon) && item.is_active) {
+				marker = L.marker(new L.LatLng(+lan, +lon), {
+					property_id,
+					title: `${msl} ${property_for}`,
+					property_for,
+					// icon: L.divIcon({
+					// 	className: `icon-${createClass(property_for)}`,
+					// }),
+					icon: L.icon({
+						iconUrl: `/map/${property_for}.svg`,
+						iconSize: [24, 24],
+						iconAnchor: [12, 12],
+						opacity: 0.5,
+					}),
+				});
+				// if (!isEmpty(msl)) marker.bindPopup(msl);
+				if (!isEmpty(msl)) marker.on("click", onMarkerClick);
+				mclusters.addLayer(marker);
+			}
+		});
+
+		map = L.map("map-canvas", {
+			zoomControl: false, // Add zoom control separately below
+			center: new L.LatLng(9.9714, -84.1666), // Initial map center
+			maxBounds: L.latLngBounds([
+				[9.985164099097155, -84.18501377105714],
+				[9.960979529488318, -84.13235664367676],
+			]),
+			zoom: 16, // Initial zoom level
+			attributionControl: false, // Instead of default attribution, we add custom at the bottom of script
+			scrollWheelZoom: true,
+			layers: [baseLayer, mclusters],
+		});
+
+		map.invalidateSize();
+
+		// map.on("load", console.log("map loaded")); // 🚩 why doesn't work?
+		L.control.zoom({ position: "topright" }).addTo(map);
+	});
+
+	onDestroy(async () => {
+		if (map) {
+			// console.log("Unloading 🗺");
+			map.remove();
+		}
+	});
+
+	function onMarkerClick(e) {
+		map.setView(e.target.getLatLng(), 18);
+		console.log("🗺", e.sourceTarget.options.property_id);
+		dispatch("selected", e.sourceTarget.options.property_id);
+	}
+
+	// function createClass(property) {
+	// 	console.log("🧨", property);
+	// 	const propClasses = {
+	// 		"000": "dead", // none
+	// 		"001": "investment", // investment (magenta)
+	// 		"010": "rent", // rent (orange)
+	// 		"100": "sale", // sale (cyan)
+	// 		"011": "rent-investment", // investment + rent (burdengy)
+	// 		"101": "sale-investment", // investment + sale (purple)
+	// 		"110": "rent-sale", // rent + sale (green)
+	// 		"111": "rent-sale-investment", // investment + rent + sale (white)
+	// 	};
+	// 	return propClasses[
+	// 		`${Number(property.rent)}${Number(property.sale)}${Number(
+	// 			property.investment
+	// 		)}`
+	// 	];
+	// }
+</script>
+
+<svelte:head>
+	<link rel="stylesheet" href="/css/leaflet.css" />
+	<link rel="stylesheet" href="/css/MarkerCluster.css" />
+</svelte:head>
+
+<div id="map-canvas" class="map" />
+
+<style>
+	.map {
+		height: 100%;
+		width: 100%;
+		z-index: 1;
+	}
+	/* .map :global(.leaflet-marker-icon) {
+		border-radius: 50%;
+		outline: 3px solid white;
+	}
+	.map :global(.icon-undefined) {
+		background: purple;
+	}
+	.map :global(.icon-sale) {
+		background: rgb(0, 0, 255);
+	}
+	.map :global(.icon-rent) {
+		background: rgb(0, 128, 0);
+	}
+	.map :global(.icon-rent-sale) {
+		background: rgb(0, 102, 128);
+	} */
+	@media (prefers-color-scheme: dark) {
+		.map {
+			filter: invert(1) brightness(var(--brightness));
+		}
+	}
+</style>

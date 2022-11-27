@@ -1,0 +1,78 @@
+<script>
+	import { navigating, page } from "$app/stores";
+	import { goto } from "$app/navigation";
+	import { supabase } from "$lib/db";
+	import LogoSvg from "$lib/LogoSvg.svelte";
+	// import Splash from "$lib/Splash.svelte";
+	import Map from "$lib/map/Map.svelte";
+	import Preview from "$lib/Preview.svelte";
+	import JsonDump from "$lib/JSONDump.svelte";
+	import { onMount } from "svelte";
+
+	export let data;
+
+	let loading = data.loading ?? false,
+		error = "",
+		message = "",
+		showPreview = false,
+		selectedProperty;
+
+	// TODO: 🚩 why is this not triggers since login form set to use:enhance?
+	$: if ($page.data.session) {
+		console.log("💦💦💦");
+	}
+
+	// $: console.log("selected property: ", selectedProperty);
+
+	onMount(async () => {
+		loading = false;
+	});
+</script>
+
+<!-- <JsonDump name="data" {data} /> -->
+
+<!-- {#if loading}
+	<Splash />
+{:else} -->
+
+{#if !$navigating}
+	<LogoSvg animate={true} kind="gold" fixed="fixed" />
+{/if}
+
+<main class:preview={selectedProperty}>
+	<Map
+		markers={data.properties}
+		on:selected={(e) => (selectedProperty = e.detail)}
+	/>
+
+	{#if selectedProperty}
+		<aside class="preview-wrapper">
+			<Preview data={selectedProperty} />
+		</aside>
+	{/if}
+</main>
+
+<!-- {/if} -->
+<style>
+	main {
+		display: grid;
+		height: 100vh;
+		width: 100vw;
+	}
+	main.preview {
+		grid-template-rows: 30vh 1fr;
+	}
+	@media (min-width: 768px) {
+		.preview-wrapper {
+			height: 100vh;
+			display: grid;
+		}
+		main.preview {
+			grid-template-rows: 1fr;
+			grid-template-columns: 1fr 369px;
+		}
+		/* main :global(.map) {
+			width: 70vw;
+		} */
+	}
+</style>
