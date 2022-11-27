@@ -20,10 +20,7 @@
 
 	<div class="grid-container">
 		<div class="qr">
-			<QR
-				size={180}
-				message="{data.hostname}/{data.property.id}?msl={data.property.msl}"
-			/>
+			<QR size={180} message="{data.hostname}/{data.property.id}" />
 			<small>{data.hostname}/{data.property.id}</small>
 		</div>
 
@@ -79,7 +76,10 @@
 		</div>
 
 		<div class="parcel flexit">
-			<Badge label="built" value={data.property.year_built} />
+			<Badge
+				label="built"
+				value={new Date(data.property.year_built).getFullYear()}
+			/>
 			<Badge label="style" value={data.property.building_style} />
 			<Badge label="lot" value={data.property.lot_size} />
 			<Badge label="building" value={data.property.building_size} />
@@ -102,13 +102,13 @@
 	</div>
 
 	<div class="property-listing">
-		<h1>Scan this QR to view details of this {data.property.msl} listing.</h1>
+		<h2>Scan this QR to view details of this {data.property.msl} listing.</h2>
 
 		<div class="qr-wrapper">
 			<QR size={360} message="{data.hostname}/{data.property.id}" />
 		</div>
 
-		<h2>{data.hostname}/{data.property.id}</h2>
+		<h3>{data.hostname}/{data.property.id}</h3>
 	</div>
 
 	<!--
@@ -119,15 +119,12 @@
 
 <style>
 	.print-property {
-		overflow: auto;
-		/* height: 100vh; */
-		/* width: 100vw; */
-		display: flex;
-		flex-direction: column;
+		display: grid;
 		justify-content: center;
 		align-items: center;
-		color: var(--color-black);
-		background: var(--color-white);
+		flex-direction: column;
+		margin: var(--padding-large) 0;
+		gap: var(--gap-small);
 	}
 
 	@media (min-width: 768px) {
@@ -169,12 +166,12 @@
 	.grid-container :global(.badge) {
 		margin: 1rem;
 	}
-	.grid-container :global(.label) {
+	/* .grid-container :global(.label) {
 		font-size: 1em;
-	}
-	.grid-container :global(.value) {
+	} */
+	/* .grid-container :global(.value) {
 		font-size: 1.3em;
-	}
+	} */
 	.grid-container > div {
 		border: var(--border);
 	}
@@ -240,5 +237,6 @@
 		/* min-height: 100vh; */
 		width: 90vw;
 		margin: 3rem auto;
+		text-align: center;
 	}
 </style>

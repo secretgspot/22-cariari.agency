@@ -43,7 +43,7 @@ Built with:
 ## Todo
 
 - [ ] back button on UUID
-- [ ] the top logo should not be visible when the splash is shown
+- [x] the top logo should not be visible when the splash is shown
 - [ ] pull and detect when a user is logged in and when a user is an admin
 - [ ] create a nav on the main page for properties / about pages
 - [ ] present sign-up with magic link only when the user completes the form
