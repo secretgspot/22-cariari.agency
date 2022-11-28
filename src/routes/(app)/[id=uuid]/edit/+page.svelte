@@ -481,7 +481,14 @@
 		<div class="inputs">
 			<fieldset>
 				<legend>Features</legend>
-				<input type="text" placeholder="ex: BBQ" use:enter={addFeature} />
+				<input
+					type="text"
+					placeholder="ex: BBQ"
+					on:keydown={(evt) => {
+						if (evt.key == "Enter") evt.preventDefault();
+					}}
+					use:enter={addFeature}
+				/>
 				<div class="feature-list">
 					{#each data.property.features || [] as feature, i}
 						<span class="feature">
