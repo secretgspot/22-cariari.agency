@@ -68,7 +68,7 @@ export const actions = {
 			address: formData.get('address'),
 			location: JSON.parse(formData.get('location')),
 			land_use: formData.get('land_use'),
-			// property_for: JSON.parse(formData.get('property_for')),
+			property_for: JSON.parse(formData.get('property_for')),
 			lot_size: Number(formData.get('lot_size')),
 			year_built: Number(formData.get('year_built')),
 			building_size: Number(formData.get('building_size')),

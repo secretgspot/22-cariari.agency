@@ -2,7 +2,12 @@
 	/** @type {import('./$types').PageData} */
 	import { navigating } from "$app/stores";
 	import { base } from "$app/paths";
-	import { goto, afterNavigate, beforeNavigate } from "$app/navigation";
+	import {
+		goto,
+		afterNavigate,
+		beforeNavigate,
+		invalidateAll,
+	} from "$app/navigation";
 	import LogoSvg from "$lib/LogoSvg.svelte";
 	import { Button } from "$lib/buttons";
 	import Badge from "$lib/Badge.svelte";
@@ -16,18 +21,18 @@
 
 	export let data;
 
-	let previousPage = base;
+	// let previousPage = base;
 
-	afterNavigate(({ from }) => {
-		if (from == null) {
-			previousPage = "/";
-		} else {
-			previousPage = from?.url.pathname || previousPage;
-		}
-		console.log("🎄", from);
-	});
+	// afterNavigate(({ from }) => {
+	// 	if (from == null) {
+	// 		previousPage = "/";
+	// 	} else {
+	// 		previousPage = from?.url.pathname || previousPage;
+	// 	}
+	// 	console.log("🎄", from);
+	// });
 
-	$: console.log("previous page: ", previousPage);
+	// $: console.log("previous page: ", previousPage);
 </script>
 
 <!-- <JsonDump name="data" {data} /> -->
@@ -90,7 +95,7 @@
 
 	<!-- SIDE PANE -->
 	<div class="side scroller">
-		<Button size="icon" class="close" on:click={() => goto(previousPage)}>
+		<Button size="icon" class="close" on:click={() => goto("/")}>
 			<svelte:fragment slot="icon"
 				><svg
 					width="24px"

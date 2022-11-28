@@ -8,7 +8,7 @@
 	import JsonDump from "$lib/JSONDump.svelte";
 	import MapPicker from "$lib/map/MapPicker.svelte";
 	import Uploader from "$lib/Uploader.svelte";
-	import Checkbox from "$lib/Checkbox.svelte";
+	import Checkboxes from "$lib/Checkboxes.svelte";
 	import { confetti } from "@neoconfetti/svelte";
 
 	export let data;
@@ -192,21 +192,7 @@
 
 			<fieldset class="flow">
 				<legend>Property For</legend>
-				<Checkbox
-					name="rent"
-					label="Sale"
-					bind:group={data.property.property_for}
-				/>
-				<Checkbox
-					name="sale"
-					label="Rent"
-					bind:group={data.property.property_for}
-				/>
-				<Checkbox
-					name="investment"
-					label="Investment"
-					bind:group={data.property.property_for}
-				/>
+				<Checkboxes bind:selected={data.property.property_for} />
 			</fieldset>
 		</div>
 	</section>

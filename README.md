@@ -44,10 +44,10 @@ Built with:
 
 - [ ] back button on UUID
 - [ ] pull and detect when a user is logged in and when a user is an admin
-- [ ] create a nav on the main page for properties / about pages
+- [x] create a nav on the main page for properties / about pages
 - [ ] present sign-up with magic link only when the user completes the form
 - [ ] in an edit, the map doesn't listen for GPS input
-- [ ] checkboxes for property_for
+- [x] checkboxes for property_for
 - [ ] details page full-width overflow issue
 - [ ] map acting strange when layout changes
 - [ ] better loading indicator for preview

@@ -1,4 +1,5 @@
 <script>
+	import { onMount } from "svelte";
 	import { navigating, page } from "$app/stores";
 	import { goto } from "$app/navigation";
 	import { supabase } from "$lib/db";
@@ -6,8 +7,8 @@
 	// import Splash from "$lib/Splash.svelte";
 	import Map from "$lib/map/Map.svelte";
 	import Preview from "$lib/Preview.svelte";
+	import Nav from "$lib/Nav.svelte";
 	import JsonDump from "$lib/JSONDump.svelte";
-	import { onMount } from "svelte";
 
 	export let data;
 
@@ -37,6 +38,7 @@
 
 {#if !$navigating}
 	<LogoSvg animate={true} kind="gold" fixed="fixed" />
+	<Nav />
 {/if}
 
 <main class:preview={selectedProperty}>
