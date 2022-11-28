@@ -9,6 +9,7 @@
 	<input
 		type="checkbox"
 		bind:checked
+		on:change
 		id={name}
 		value={label}
 		{name}

@@ -17,12 +17,12 @@
 
 		// NICE CLEAR ONE!
 		// http://maps.stamen.com/
-		// https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}
-		// https://stamen-tiles-{s}.a.ssl.fastly.net/toner-hybrid/{z}/{x}/{y}{r}.{ext}
-		// https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lines/{z}/{x}/{y}{r}.{ext}
-		// https://stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}{r}.{ext}
+		// //stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.{ext}
+		// //stamen-tiles-{s}.a.ssl.fastly.net/toner-hybrid/{z}/{x}/{y}.{ext}
+		// //stamen-tiles-{s}.a.ssl.fastly.net/toner-lines/{z}/{x}/{y}.{ext}
+		// //stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}.{ext}
 		baseLayer = L.tileLayer(
-			"https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.{ext}",
+			"//stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}",
 			{
 				subdomains: "abcd",
 				minZoom: 15,
@@ -73,12 +73,12 @@
 			attributionControl: false, // Instead of default attribution, we add custom at the bottom of script
 			scrollWheelZoom: true,
 			layers: [baseLayer, mclusters],
-		});
-
-		map.invalidateSize();
+		}).invalidateSize();
 
 		// map.on("load", console.log("map loaded")); // 🚩 why doesn't work?
-		L.control.zoom({ position: "topright" }).addTo(map);
+		L.control.zoom({ position: "bottomleft" }).addTo(map);
+
+		// map.invalidateSize();
 	});
 
 	onDestroy(async () => {

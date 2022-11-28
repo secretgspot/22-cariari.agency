@@ -3,13 +3,14 @@
 	export let label = "";
 	export let name = "";
 	export let disabled = false;
+	export let group;
 </script>
 
 <div class="checkbox-circle">
 	<input
 		type="checkbox"
 		bind:checked
-		group={name}
+		bind:group
 		id={name}
 		value={label}
 		{name}
@@ -28,7 +29,7 @@
 	.checkbox-circle input[type="checkbox"] + label {
 		display: block;
 		position: relative;
-		padding-left: 35px;
+		padding-left: var(--padding-medium);
 		margin-bottom: 20px;
 		cursor: pointer;
 		user-select: none;
@@ -59,7 +60,7 @@
 		position: absolute;
 		left: 0;
 		top: 50%;
-		background: var(--neutral);
+		/* background: var(--neutral); */
 		transform: translateY(-50%);
 	}
 

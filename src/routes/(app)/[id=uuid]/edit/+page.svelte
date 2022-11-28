@@ -1,7 +1,7 @@
 <script>
 	/** @type {import('./$types').PageData} */
 	import { goto } from "$app/navigation";
-	import { enhance } from "$app/forms";
+	import { enhance, applyAction } from "$app/forms";
 	import Logo from "$lib/Logo.svelte";
 	import { Button } from "$lib/buttons";
 	import Toggle from "$lib/Toggle.svelte";
@@ -116,9 +116,32 @@
 	class="edit-property"
 	method="POST"
 	action="?/edit"
-	use:enhance={() => {
+	use:enhance={({ form, data, action, cancel }) => {
+		// 'form' is the '<form>' element
+		// 'data' is it's 'FormData' object
+		// 'action' is the URL to which the form is posted
+		// 'cancel()' will prevent the submission
+
+		// ALL THIS RUNS BEFORE SUBMISSION TO SERVER
+		won = false;
+		loading = true;
+		message = "";
+		error = "";
+
 		// prevent default callback from resetting the form
-		return ({ update }) => {
+		return async ({ result, update }) => {
+			if (result.type === "success") {
+				// reset form
+				// clearStorage();
+				// form.reset();
+				won = true;
+			}
+
+			if (result.type === "invalid") {
+				error = result.data.message;
+				await applyAction(result);
+			}
+			loading = false;
 			update({ reset: false });
 		};
 	}}
@@ -149,6 +172,7 @@
 				<legend>MSL</legend>
 				<input
 					type="text"
+					name="msl"
 					placeholder="ex: CR-001"
 					bind:value={data.property.msl}
 				/>
@@ -159,7 +183,7 @@
 
 			<fieldset>
 				<legend>Land Use</legend>
-				<select bind:value={data.property.land_use}>
+				<select name="land_use" bind:value={data.property.land_use}>
 					<option>Residential</option>
 					<option>Commercial</option>
 					<option>Industrial</option>
@@ -202,6 +226,7 @@
 				<legend>Address</legend>
 				<input
 					type="text"
+					name="address"
 					placeholder="ex: Avenida 52, Provincia Heredia, La Asunción, 40703"
 					bind:value={data.property.address}
 				/>
@@ -242,7 +267,8 @@
 			<fieldset>
 				<legend>Phone</legend>
 				<input
-					type="text"
+					type="tel"
+					name="contact_phone"
 					placeholder="ex: 1234-5678"
 					bind:value={data.property.contact_phone}
 				/>
@@ -251,7 +277,8 @@
 			<fieldset>
 				<legend>Email</legend>
 				<input
-					type="text"
+					type="email"
+					name="contact_email"
 					placeholder="ex: this@that.there"
 					bind:value={data.property.contact_email}
 				/>
@@ -261,6 +288,7 @@
 				<legend>Realtor</legend>
 				<input
 					type="text"
+					name="contact_realtor"
 					placeholder="ex: Re/Max or Jane Doe"
 					bind:value={data.property.contact_realtor}
 				/>
@@ -282,8 +310,12 @@
 			<fieldset>
 				<legend>Year built</legend>
 				<input
-					type="text"
+					type="number"
+					name="year_built"
 					placeholder="ex: 2019"
+					min="1900"
+					max="2099"
+					step="1"
 					bind:value={data.property.year_built}
 				/>
 			</fieldset>
@@ -292,6 +324,7 @@
 				<legend>Building Style</legend>
 				<input
 					type="text"
+					name="building_style"
 					placeholder="ex: 2 Storey"
 					bind:value={data.property.building_style}
 				/>
@@ -300,7 +333,8 @@
 			<fieldset>
 				<legend>Lot Size ㎡</legend>
 				<input
-					type="text"
+					type="number"
+					name="lot_size"
 					placeholder="ex: 900"
 					bind:value={data.property.lot_size}
 				/>
@@ -309,7 +343,8 @@
 			<fieldset>
 				<legend>Building Size ㎡</legend>
 				<input
-					type="text"
+					type="number"
+					name="building_size"
 					placeholder="ex: 810"
 					bind:value={data.property.building_size}
 				/>
@@ -331,7 +366,8 @@
 			<fieldset>
 				<legend>Bedrooms</legend>
 				<input
-					type="text"
+					type="number"
+					name="beds"
 					placeholder="ex: 3"
 					bind:value={data.property.beds}
 				/>
@@ -340,7 +376,8 @@
 			<fieldset>
 				<legend>Bathrooms</legend>
 				<input
-					type="text"
+					type="number"
+					name="baths"
 					placeholder="ex: 3"
 					bind:value={data.property.baths}
 				/>
@@ -349,7 +386,8 @@
 			<fieldset>
 				<legend>Restrooms (half-baths)</legend>
 				<input
-					type="text"
+					type="number"
+					name="half_baths"
 					placeholder="ex: 2"
 					bind:value={data.property.half_baths}
 				/>
@@ -358,7 +396,8 @@
 			<fieldset>
 				<legend>Rooms</legend>
 				<input
-					type="text"
+					type="number"
+					name="rooms"
 					placeholder="ex: 6"
 					bind:value={data.property.rooms}
 				/>
@@ -367,7 +406,8 @@
 			<fieldset>
 				<legend>Parking Spaces</legend>
 				<input
-					type="text"
+					type="number"
+					name="parking_spaces"
 					placeholder="ex: 9"
 					bind:value={data.property.parking_spaces}
 				/>
@@ -389,7 +429,8 @@
 			<fieldset>
 				<legend>Price $</legend>
 				<input
-					type="text"
+					type="number"
+					name="price"
 					placeholder="ex: 630000"
 					bind:value={data.property.price}
 				/>
@@ -398,7 +439,8 @@
 			<fieldset>
 				<legend>Rent ($/month)</legend>
 				<input
-					type="text"
+					type="number"
+					name="rent"
 					placeholder="ex: 1800"
 					bind:value={data.property.rent}
 				/>
@@ -407,7 +449,8 @@
 			<fieldset>
 				<legend>Taxes ($/year)</legend>
 				<input
-					type="text"
+					type="number"
+					name="taxes"
 					placeholder="ex: 1500"
 					bind:value={data.property.taxes}
 				/>
@@ -416,7 +459,8 @@
 			<fieldset>
 				<legend>Fees (condo, asssociation) ($/month)</legend>
 				<input
-					type="text"
+					type="number"
+					name="fees"
 					placeholder="ex: 120"
 					bind:value={data.property.fees}
 				/>
@@ -469,6 +513,7 @@
 			<fieldset class="description">
 				<legend>Description</legend>
 				<textarea
+					name="description"
 					class="scroller"
 					rows="6"
 					placeholder="Description (max 9 sentences)"
@@ -531,15 +576,29 @@
 			</Button>
 		{/if}
 
+		<input type="hidden" hidden name="id" value={data.property.id} />
+		<input
+			type="hidden"
+			hidden
+			name="location"
+			value={JSON.stringify(data.property.location)}
+		/>
+		<input
+			type="hidden"
+			hidden
+			name="property_for"
+			value={JSON.stringify(data.property.property_for)}
+		/>
+		<input
+			type="hidden"
+			hidden
+			name="features"
+			value={JSON.stringify(data.property.features)}
+		/>
 		<!-- <Button type="button" disabled={loading || !formIsValid}
 				>Submit Changes
 			</Button> -->
-		<Button
-			type="button"
-			on:click={() => (won = !won)}
-			{loading}
-			disabled={loading}
-		>
+		<Button {loading} disabled={loading}>
 			<svelte:fragment slot="icon">💾</svelte:fragment>
 			Submit Changes
 		</Button>
@@ -589,6 +648,9 @@
 	}
 
 	fieldset input[type="text"],
+	fieldset input[type="email"],
+	fieldset input[type="number"],
+	fieldset input[type="tel"],
 	fieldset select,
 	fieldset textarea {
 		display: block;
@@ -613,7 +675,7 @@
 		box-shadow: var(--shadow-small);
 	}
 	.section .header p {
-		color: var(--neutral-content);
+		color: var(--secondary-content);
 	}
 	.section .inputs {
 		display: flex;

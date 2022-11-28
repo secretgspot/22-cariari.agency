@@ -189,20 +189,20 @@
 		{/if}
 
 		<div class="badge-group">
-			{#if data.property.rooms_count > 0}
-				<Badge type="icon" label="rooms" value={data.property.rooms_count} />
+			{#if data.property.rooms > 0}
+				<Badge type="icon" label="rooms" value={data.property.rooms} />
 			{/if}
-			{#if data.property.beds_count > 0}
-				<Badge type="icon" label="beds" value={data.property.beds_count} />
+			{#if data.property.beds > 0}
+				<Badge type="icon" label="beds" value={data.property.beds} />
 			{/if}
-			{#if data.property.baths_count > 0}
-				<Badge type="icon" label="baths" value={data.property.baths_count} />
+			{#if data.property.baths > 0}
+				<Badge type="icon" label="baths" value={data.property.baths} />
 			{/if}
-			{#if data.property.half_baths_count > 0}
+			{#if data.property.half_baths > 0}
 				<Badge
 					type="icon"
 					label="half baths"
-					value={data.property.half_baths_count}
+					value={data.property.half_baths}
 				/>
 			{/if}
 			{#if data.property.parking_spaces > 0}

@@ -4,7 +4,7 @@
 	import Logo from "$lib/Logo.svelte";
 	import Badge from "$lib/Badge.svelte";
 	import QR from "$lib/QR.svelte";
-	import { Button } from "$lib/buttons";
+	import { Button, LinkButton } from "$lib/buttons";
 
 	export let data;
 </script>
@@ -38,9 +38,11 @@
 			are currently on the market. If you would like to update details that are
 			missing or unlist this property from our website, please scan QR code
 			which will take you to our editing page where you can update details and
-			or remove it from being listed. You can visit same page by navigating to <b
-				>{data.hostname}/{data.property.id}/edit</b
-			> This service is free.
+			or remove it from being listed. You can visit same page by navigating to
+			<LinkButton href="/{data.property.id}/edit" title="Add you property"
+				>{data.hostname}/{data.property.id}/edit</LinkButton
+			>
+			This service is free.
 		</div>
 
 		<div class="features">
@@ -86,10 +88,10 @@
 		</div>
 
 		<div class="interior flexit">
-			<Badge label="rooms" value={data.property.rooms_count} />
-			<Badge label="beds" value={data.property.beds_count} />
-			<Badge label="baths" value={data.property.baths_count} />
-			<Badge label="half baths" value={data.property.half_baths_count} />
+			<Badge label="rooms" value={data.property.rooms} />
+			<Badge label="beds" value={data.property.beds} />
+			<Badge label="baths" value={data.property.baths} />
+			<Badge label="half baths" value={data.property.half_baths} />
 			<Badge label="parkings" value={data.property.parking_spaces} />
 		</div>
 

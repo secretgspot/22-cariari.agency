@@ -13,7 +13,7 @@ export async function load(event) {
 	}
 
 	const getProperties = async () => {
-		const { data, error: err } = await supabaseClient.from('properties')
+		const { data, error: err } = await supabaseClient.from('properties_preview')
 			.select('*');
 		if (err) throw error(400, `💩 ${err.message}`);
 

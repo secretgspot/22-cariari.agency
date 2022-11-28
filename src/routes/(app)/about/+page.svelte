@@ -348,7 +348,7 @@
 		display: grid;
 		max-width: 930px;
 		margin: var(--padding-large) auto;
-		gap: var(--gap-medium);
+		row-gap: var(--gap-medium);
 		grid-template-columns: 1fr 3fr 1fr;
 	}
 	article > * {
@@ -356,10 +356,11 @@
 	}
 	h1 {
 		font-family: "Gabriola", Times, serif;
-		font-size: 3rem;
+		font-size: 2.1rem;
 		text-align: justify;
 	}
 	p {
+		font-size: 1.2rem;
 		line-height: 1.8;
 		font-family: cursive;
 		text-align: justify;
