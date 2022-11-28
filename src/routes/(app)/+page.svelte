@@ -42,10 +42,13 @@
 {/if}
 
 <main class:preview={selectedProperty}>
-	<Map
-		markers={data.properties}
-		on:selected={(e) => (selectedProperty = e.detail)}
-	/>
+	<section class="map-wrapper">
+		<Nav />
+		<Map
+			markers={data.properties}
+			on:selected={(e) => (selectedProperty = e.detail)}
+		/>
+	</section>
 
 	{#if selectedProperty}
 		<aside class="preview-wrapper">
@@ -60,6 +63,9 @@
 		display: grid;
 		height: 100vh;
 		width: 100vw;
+	}
+	.map-wrapper {
+		position: relative;
 	}
 	main.preview {
 		grid-template-rows: 30vh 1fr;

@@ -1,11 +1,19 @@
 <script>
+	import { page } from "$app/stores";
 	import { LinkButton } from "$lib/buttons";
+
+	$: url = $page.url.pathname;
 </script>
 
 <nav>
+	{#if url != "/"}
+		<li><LinkButton href="/">Map</LinkButton></li>
+	{/if}
 	<li><LinkButton href="/properties">Properties</LinkButton></li>
 	<li><LinkButton href="/add">Add</LinkButton></li>
-	<li><LinkButton href="/about">About</LinkButton></li>
+	{#if url != "/about"}
+		<li><LinkButton href="/about">About</LinkButton></li>
+	{/if}
 </nav>
 
 <style>
@@ -13,7 +21,7 @@
 		display: flex;
 		gap: var(--gap-extra-small);
 		list-style: none;
-		position: fixed;
+		position: absolute;
 		top: var(--padding-small);
 		right: var(--padding-small);
 		z-index: 3;

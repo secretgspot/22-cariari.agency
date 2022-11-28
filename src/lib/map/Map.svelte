@@ -66,8 +66,8 @@
 			zoomControl: false, // Add zoom control separately below
 			center: new L.LatLng(9.9714, -84.1666), // Initial map center
 			maxBounds: L.latLngBounds([
-				[9.985164099097155, -84.18501377105714],
-				[9.960979529488318, -84.13235664367676],
+				[9.980261288306549, -84.17891979217531],
+				[9.962086432098069, -84.14235591888429],
 			]),
 			zoom: 16, // Initial zoom level
 			attributionControl: false, // Instead of default attribution, we add custom at the bottom of script
@@ -77,6 +77,8 @@
 
 		// map.on("load", console.log("map loaded")); // 🚩 why doesn't work?
 		L.control.zoom({ position: "bottomleft" }).addTo(map);
+
+		map.on("resize", () => console.log("resized map"));
 
 		// map.invalidateSize();
 	});
@@ -89,7 +91,7 @@
 	});
 
 	function onMarkerClick(e) {
-		map.setView(e.target.getLatLng(), 18);
+		map.setView(e.target.getLatLng(), 17);
 		console.log("🗺", e.sourceTarget.options.property_id);
 		dispatch("selected", e.sourceTarget.options.property_id);
 	}

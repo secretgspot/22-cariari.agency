@@ -38,8 +38,8 @@
 			zoomControl: false, // Add zoom control separately below
 			center: [9.933576017916193, -84.0551265784177], // Initial map center
 			maxBounds: L.latLngBounds([
-				[9.985164099097155, -84.18501377105714],
-				[9.960818381062492, -84.14535999298097],
+				[9.980261288306549, -84.17891979217531],
+				[9.962086432098069, -84.14235591888429],
 			]),
 			zoom: 15, // Initial zoom level
 			attributionControl: false, // Instead of default attribution, we add custom at the bottom of script
@@ -65,6 +65,7 @@
 		}
 
 		map.on("click", onMapClick);
+		// map.on('resize', () => console.log('resized map'))
 
 		// map.invalidateSize();
 	});

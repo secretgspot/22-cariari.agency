@@ -42,15 +42,15 @@ Built with:
 
 ## Todo
 
+- [ ] in an edit, the map doesn't listen for GPS input
 - [ ] back button on UUID
 - [ ] pull and detect when a user is logged in and when a user is an admin
 - [ ] present sign-up with magic link only when the user completes the form
-- [ ] in an edit, the map doesn't listen for GPS input
 - [ ] details page full-width overflow issue
 - [ ] map acting strange when layout changes
 - [ ] better loading indicator for preview
 - [ ] storage on the add property page
-- [ ] dynamic navigation depending on the route
-- [ ] the nav should be inside a map wrapper container
+- [x] dynamic navigation depending on the route
+- [x] the nav should be inside a map wrapper container
 
 ## Lessons
