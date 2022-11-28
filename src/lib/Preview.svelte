@@ -42,6 +42,10 @@
 	// $: console.log("preview property: ", property);
 </script>
 
+{#if loading}
+	<div class="loader"><Spinner /></div>
+{/if}
+
 <section class="preview-content" class:loading>
 	<figure>
 		<!-- {JSON.stringify(property.photos, null, 2)} -->
@@ -247,6 +251,17 @@
 		.preview-content {
 			height: 100vh;
 		}
+	}
+	.loader {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: 4;
+		display: grid;
+		justify-items: center;
+		align-items: center;
 	}
 	.loading {
 		/* background: red; */

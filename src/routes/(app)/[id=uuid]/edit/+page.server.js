@@ -88,7 +88,7 @@ export const actions = {
 			contact_realtor: formData.get('contact_realtor'),
 		}
 
-		console.log('/[uuid]/+layout.server.js action -> edit: ', property);
+		// console.log('/[uuid]/+layout.server.js action -> edit: ', property);
 
 		// push it to the server
 		const { data: resData, error: resErr } = await supabaseClient.from('properties').update(property).eq('id', property.id).select().maybeSingle();

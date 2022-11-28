@@ -17,6 +17,7 @@
 		top: var(--padding-small);
 		right: var(--padding-small);
 		z-index: 3;
+		background: hsl(var(--p) / 0.9);
 		backdrop-filter: blur(3px);
 		padding: var(--padding-extra-small);
 		border-radius: var(--border-radius);

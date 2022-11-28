@@ -1,4 +1,8 @@
 <script>
+	import { navigating } from "$app/stores";
+	import { goto } from "$app/navigation";
+	import Logo from "$lib/Logo.svelte";
+	import Nav from "$lib/Nav.svelte";
 	import { LinkButton } from "$lib/buttons";
 </script>
 
@@ -6,6 +10,11 @@
 	<title>About</title>
 	<meta name="description" content="About Cariari.Agency" />
 </svelte:head>
+
+{#if !$navigating}
+	<Logo type="regular" color="bw" fixed="fixed" on:click={() => goto("/")} />
+	<Nav />
+{/if}
 
 <article>
 	<svg

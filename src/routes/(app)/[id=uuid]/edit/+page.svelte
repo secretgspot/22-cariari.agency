@@ -1,15 +1,17 @@
 <script>
 	/** @type {import('./$types').PageData} */
+	import { navigating, page } from "$app/stores";
 	import { goto } from "$app/navigation";
 	import { enhance, applyAction } from "$app/forms";
 	import Logo from "$lib/Logo.svelte";
+	import Nav from "$lib/Nav.svelte";
 	import { Button } from "$lib/buttons";
 	import Toggle from "$lib/Toggle.svelte";
-	import JsonDump from "$lib/JSONDump.svelte";
 	import MapPicker from "$lib/map/MapPicker.svelte";
 	import Uploader from "$lib/Uploader.svelte";
 	import Checkboxes from "$lib/Checkboxes.svelte";
 	import { confetti } from "@neoconfetti/svelte";
+	import JsonDump from "$lib/JSONDump.svelte";
 
 	export let data;
 
@@ -110,7 +112,10 @@
 	}
 </script>
 
-<Logo type="regular" color="bw" fixed="fixed" on:click={() => goto("/")} />
+{#if !$navigating}
+	<Logo type="regular" color="bw" fixed="fixed" on:click={() => goto("/")} />
+	<Nav />
+{/if}
 
 <form
 	class="edit-property"
@@ -628,15 +633,14 @@
 	>
 </Modal> -->
 
-<JsonDump name="data" {data} />
-
+<!-- <JsonDump name="data" {data} /> -->
 <style>
 	.edit-property {
 		display: grid;
 		justify-content: center;
 		align-items: center;
 		flex-direction: column;
-		margin: var(--padding-large) 0;
+		margin: calc(var(--padding-large) * 3) 0;
 		gap: var(--gap-small);
 	}
 
@@ -760,6 +764,7 @@
 	@media (min-width: 768px) {
 		footer.buttons-group {
 			justify-content: flex-end;
+			grid-template-columns: repeat(3, 1fr);
 		}
 		/* footer.buttons-group :global(button) {
 			flex: 0 1 auto;

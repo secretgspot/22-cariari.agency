@@ -68,6 +68,7 @@
 		.preview-wrapper {
 			height: 100vh;
 			display: grid;
+			position: relative;
 		}
 		main.preview {
 			grid-template-rows: 1fr;

@@ -1,7 +1,9 @@
 <script>
 	/** @type {import('./$types').PageData} */
+	import { navigating } from "$app/stores";
 	import { goto } from "$app/navigation";
 	import Logo from "$lib/Logo.svelte";
+	import Nav from "$lib/Nav.svelte";
 	import Badge from "$lib/Badge.svelte";
 	import QR from "$lib/QR.svelte";
 	import { Button, LinkButton } from "$lib/buttons";
@@ -13,7 +15,10 @@
 	<title>{data.property.msl}</title>
 </svelte:head>
 
-<Logo type="regular" color="bw" fixed="fixed" on:click={() => goto("/")} />
+{#if !$navigating}
+	<Logo type="regular" color="bw" fixed="fixed" on:click={() => goto("/")} />
+	<Nav />
+{/if}
 
 <article class="print-property">
 	<!-- <h1>Print {slug} {JSON.stringify(query, null, 2)}</h1> -->
@@ -129,11 +134,11 @@
 		gap: var(--gap-small);
 	}
 
-	@media (min-width: 768px) {
+	/* @media (min-width: 768px) {
 		.print-property {
 			min-height: 100vh;
 		}
-	}
+	} */
 
 	.grid-container {
 		display: grid;
