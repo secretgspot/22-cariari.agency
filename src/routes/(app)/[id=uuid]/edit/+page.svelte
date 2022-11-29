@@ -1,5 +1,6 @@
 <script>
 	/** @type {import('./$types').PageData} */
+	import { supabase } from "$lib/db";
 	import { navigating, page } from "$app/stores";
 	import { goto } from "$app/navigation";
 	import { enhance, applyAction } from "$app/forms";
@@ -24,13 +25,21 @@
 		won = false;
 
 	async function getMsl() {
+		const { data: mslData, error: mslErr } = await supabase
+			.from("properties")
+			.select("msl")
+			.order("msl", { ascending: false })
+			.limit(1)
+			.single();
+		if (mslErr) error = mslErr.message;
 		// const response = await api.get(`properties.json`, null);
 		// let digits = [];
 		// for (let [key, value] of Object.entries(response)) {
-		// 	digits = [...digits, Number(value.msl.substring(3))];
-		// 	// console.log(digits);
+		// digits = [...digits, Number(value.msl.substring(3))];
+		// console.log(Number(value.msl.substring(3)));
 		// }
-		// property.msl = `CR-${ Math.max(...digits) + 1 }`;
+		data.property.msl = `CR-${Math.max(Number(mslData.msl.substring(3))) + 1}`;
+		console.log("MSL DATA", Number(mslData.msl.substring(3)));
 	}
 
 	async function getPosition() {
@@ -177,9 +186,9 @@
 				<legend>MSL</legend>
 				<input
 					type="text"
-					name="msl"
 					placeholder="ex: CR-001"
 					bind:value={data.property.msl}
+					disabled
 				/>
 				{#if !data.property.msl}
 					<Button type="button" size="block" on:click={getMsl}>Set</Button>
@@ -549,13 +558,13 @@
 	<!-- BUTTONS -->
 	<footer class="buttons-group">
 		{#if data.property.is_active && !isAdmin}
-			<Button type="button" color="danger" disabled={loading}>
+			<Button formaction="?/remove" color="danger" {loading} disabled={loading}>
 				<svelte:fragment slot="icon">❌</svelte:fragment>
 				Remove
 			</Button>
 		{/if}
 		{#if isAdmin}
-			<Button type="button" color="danger" disabled={loading}>
+			<Button formaction="?/delete" color="danger" {loading} disabled={loading}>
 				<svelte:fragment slot="icon">❌</svelte:fragment>
 				Delete
 			</Button>
@@ -575,6 +584,7 @@
 		{/if}
 
 		<input type="hidden" hidden name="id" value={data.property.id} />
+		<input type="hidden" hidden name="msl" value={data.property.msl} />
 		<input
 			type="hidden"
 			hidden
@@ -725,7 +735,10 @@
 	} */
 
 	.section_features .feature-list {
-		margin: 1rem 0;
+		/* margin: 1rem 0; */
+		gap: var(--gap-extra-small);
+		display: flex;
+		flex-wrap: wrap;
 	}
 	.section_features .feature {
 		display: inline-flex;
@@ -733,7 +746,7 @@
 		border: var(--border);
 		border-radius: var(--border-radius);
 		padding: var(--padding-extra-small);
-		margin: var(--padding-extra-small);
+		/* margin: var(--padding-extra-small); */
 		cursor: default;
 	}
 	.section_features .feature .close {

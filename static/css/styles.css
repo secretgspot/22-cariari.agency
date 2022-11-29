@@ -208,6 +208,41 @@ body {
 	border-radius: 3px;
 }
 
+/**
+* RANGE SLIDER
+*/
+input[type=range] {
+	appearance: none;
+	margin: 10px 0;
+	width: 100%;
+}
+
+input[type=range]:focus {
+	outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+	width: 100%;
+	height: 12.8px;
+	cursor: pointer;
+	background: var(--primary);
+}
+
+input[type=range]::-webkit-slider-thumb {
+	height: 20px;
+	width: 39px;
+	border-radius: var(--border-radius);
+	background: var(--accent);
+	cursor: pointer;
+	appearance: none;
+	margin-top: -3.6px;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+	background: var(--primary-focus);
+}
+
+
 @media (min-width: 720px) {
 	h1 {
 		font-size: 2.4rem;

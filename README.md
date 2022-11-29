@@ -48,7 +48,6 @@ Built with:
 - [ ] present sign-up with magic link only when the user completes the form
 - [ ] details page full-width overflow issue
 - [ ] map acting strange when layout changes
-- [x] better loading indicator for preview
 - [ ] storage on the add property page
 
 ## Lessons

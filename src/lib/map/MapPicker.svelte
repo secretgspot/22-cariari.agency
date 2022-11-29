@@ -61,7 +61,7 @@
 		if (position) {
 			positionData = [+position.lat, +position.lng];
 			marker.setLatLng(positionData).addTo(map);
-			map.setView(positionData, 18);
+			map.setView(positionData, 16);
 		}
 
 		map.on("click", onMapClick);

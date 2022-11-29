@@ -8,7 +8,7 @@
 <main>
 	<Notify type="danger">{$page.status}: {$page.error.message}</Notify>
 
-	{#if $page.status == 401 || $page.status == 404}
+	{#if $page.status == 401 || $page.status == 404 || $page.status == 500}
 		<Button shadow right href="/" alt="Home">
 			<svelte:fragment slot="icon">🎈</svelte:fragment>
 			Return to homepage
@@ -27,5 +27,7 @@
 		align-items: center;
 		align-self: center;
 		justify-self: center;
+		height: 100vh;
+		justify-content: center;
 	}
 </style>

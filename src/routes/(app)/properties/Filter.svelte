@@ -123,13 +123,12 @@
 	input[type="number"],
 	select {
 		display: block;
-		padding: 0.5rem 0.75rem;
-		font-size: 1rem;
+		padding: var(--padding-extra-small);
 		border: var(--border);
 		border-radius: var(--border-radius);
 		width: 100%;
-		/* background: var(--secondary); */
-		/* color: var(--secondary-content); */
+		background: transparent;
+		color: var(--primary-content);
 	}
 	/* input[type="text"],
 	input[type="number"] {

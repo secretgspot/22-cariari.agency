@@ -76,7 +76,7 @@
 		<div class="buttons">
 			{#if isAdmin}
 				<!-- <Button href="property/{property.id}">Edit</Button> -->
-				<Button size="icon" on:click={() => goto(`/${property.id}/edit`)}
+				<Button size="block" on:click={() => goto(`/${property.id}/edit`)}
 					>Edit</Button
 				>
 			{/if}
@@ -101,7 +101,7 @@
 		/* margin: 1rem; */
 		background: var(--primary);
 		box-shadow: var(--shadow-small);
-		cursor: pointer;
+		cursor: default;
 	}
 	@media (min-width: 1024px) {
 		.property {
@@ -153,6 +153,7 @@
 		position: relative;
 		background-size: cover;
 		filter: brightness(var(--brightness));
+		cursor: pointer;
 	}
 	.property-image img {
 		width: 100%;

@@ -47,6 +47,8 @@ import { isEmpty } from '$lib/utils/helpers.js';
 // 	};
 // };
 export const actions = {
+
+	// EDIT PROPERTY
 	edit: async (event) => {
 
 		const { request } = event;
@@ -112,5 +114,83 @@ export const actions = {
 			message: `Property ${resData} updated successfully!`
 		}
 
+	},
+
+	// DELETES PROPERTY
+	delete: async (event) => {
+
+		const { request } = event;
+		const { session, supabaseClient } = await getSupabase(event);
+
+		// if (!session) {
+		// 	// the user is not signed in
+		// 	throw error(403, { message: 'You need to log in to edit your listing' });
+		// }
+
+		const formData = await request.formData();
+
+		const property_id = formData.get('id');
+
+		// push it to the server
+		const { data: resData, error: resErr } = await supabaseClient.from('properties').delete().eq('id', property_id).select().maybeSingle();
+		if (resErr) {
+			if (resErr instanceof AuthApiError && resErr.status === 400) {
+				return invalid(400, {
+					error: true,
+					message: `Unable to delete property, ${resErr.message}`,
+					property,
+				});
+			}
+			return invalid(500, {
+				error: true,
+				message: `Unable to delete property, ${resErr.message}`,
+				property,
+			});
+		}
+
+		if (resData) redirect(302, '/properties');
+
+		// return {
+		// 	success: true,
+		// 	message: `Property ${resData} has been deleted!`
+		// }
+	},
+
+	// DELISTS PROPERTY
+	remove: async (event) => {
+
+		const { request } = event;
+		const { session, supabaseClient } = await getSupabase(event);
+
+		// if (!session) {
+		// 	// the user is not signed in
+		// 	throw error(403, { message: 'You need to log in to edit your listing' });
+		// }
+
+		const formData = await request.formData();
+
+		const property_id = formData.get('id');
+
+		// push it to the server
+		const { data: resData, error: resErr } = await supabaseClient.from('properties').update({ is_active: false }).eq('id', property_id).select().single();
+		if (resErr) {
+			if (resErr instanceof AuthApiError && resErr.status === 400) {
+				return invalid(400, {
+					error: true,
+					message: `Unable to delist property, ${resErr.message}`,
+					property,
+				});
+			}
+			return invalid(500, {
+				error: true,
+				message: `Unable to delist property, ${resErr.message}`,
+				property,
+			});
+		}
+
+		return {
+			success: true,
+			message: `Property ${resData} has been delisted!`
+		}
 	},
 }
