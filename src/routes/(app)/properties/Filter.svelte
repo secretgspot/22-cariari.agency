@@ -1,6 +1,7 @@
 <script>
 	import filterStore from "./filter-store.js";
 	import Toggle from "$lib/Toggle.svelte";
+	import Checkboxes from "$lib/Checkboxes.svelte";
 	import { formatter } from "$lib/utils/helpers.js";
 
 	export let filter = $filterStore;
@@ -23,24 +24,7 @@
 		<h3>Transaction Type</h3>
 
 		<div class="row">
-			<label class="checkbox">
-				<input type="checkbox" bind:group={filter.filter_for} value="Rent" />
-				<span>Rent</span>
-			</label>
-
-			<label class="checkbox">
-				<input type="checkbox" bind:group={filter.filter_for} value="Sale" />
-				<span>Sale</span>
-			</label>
-
-			<label class="checkbox">
-				<input
-					type="checkbox"
-					bind:group={filter.filter_for}
-					value="Investment"
-				/>
-				<span>Investment</span>
-			</label>
+			<Checkboxes bind:selected={filter.filter_for} />
 		</div>
 	</div>
 
@@ -101,6 +85,7 @@
 
 		<div class="row">
 			<Toggle
+				name="active"
 				bind:checked={filter.active}
 				label={filter.active ? "Listed" : "Delisted"}
 			/>
@@ -117,9 +102,10 @@
 </section>
 
 <style>
-	/* .filters {} */
+	.filters {
+		display: grid;
+	}
 	.filters h3 {
-		margin-bottom: 0.5rem;
 		color: var(--secondary-content);
 		font-weight: normal;
 	}
@@ -150,42 +136,24 @@
 		max-width: 81px;
 	} */
 
-	.property_type {
-		/* padding: 2rem; */
+	.property_type,
+	.transaction_type,
+	.price_range,
+	.features,
+	.others {
 		box-shadow: var(--shadow-small);
+		padding: var(--padding-medium);
 	}
 
-	.transaction_type {
-		/* padding: 1rem 2rem 2rem; */
-		box-shadow: var(--shadow-small);
+	.price_range .range:first-child {
+		margin-bottom: var(--padding-small);
 	}
-	/* .transaction_type .checkbox:nth-child(even) {
-		margin: 0 2rem;
-	} */
 
-	.price_range {
-		/* padding: 1rem 2rem 2rem; */
-		box-shadow: var(--shadow-small);
+	.features .row {
+		gap: var(--gap-small);
 	}
-	/* .price_range .range:nth-child(odd) {
-		margin-bottom: 2rem;
-	} */
-	/* .price_range .range input {
-		margin: 0;
-	} */
 
-	.features {
-		/* padding: 1rem 2rem 2rem; */
-		box-shadow: var(--shadow-small);
-	}
-	/* .features .number:nth-child(even) {
-		margin: 0 1rem;
-	} */
-
-	/* .others {
-		padding: 1rem 2rem 2rem;
-	} */
 	.others .row {
-		align-items: baseline;
+		align-items: flex-start;
 	}
 </style>

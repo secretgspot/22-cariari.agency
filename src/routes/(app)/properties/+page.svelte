@@ -32,7 +32,7 @@
 			return filterKeys.every((key) => {
 				if (typeof filters[key] !== "function") return true; // ignores non-function predicates
 				if (!filters[key].length) return true; // passing an empty filter means that filter is ignored.
-				console.log("🎈", filters[key](item[key]));
+				// console.log("🎈", filters[key](item[key]));
 				return filters[key](item[key]);
 			});
 		});
@@ -40,17 +40,17 @@
 </script>
 
 <main>
-	<!-- {#if filtered.length > 0} -->
 	<div class="properties_list {view_style}">
-		{#each data.properties as property (property.id)}
-			<Property {property} />
-		{/each}
+		{#if filtered.length > 0}
+			{#each filtered as property (property.id)}
+				<Property {property} />
+			{/each}
+		{:else}
+			<div class="nothing_to_see">
+				<ErrorImage type="empty" />
+			</div>
+		{/if}
 	</div>
-	<!-- {:else}
-		<div class="nothing_to_see">
-			<ErrorImage type="empty" />
-		</div>
-	{/if} -->
 
 	<aside class="filter-wrapper">
 		<div class="filters-menu">
@@ -87,50 +87,61 @@
 	</aside>
 </main>
 
-<JsonDump name="data" {data} />
-
+<!-- <JsonDump name="data" {data} /> -->
 <style>
 	main {
 		display: grid;
-		height: 100vh;
-		width: 100vw;
-		grid-template-rows: 30vh 1fr;
+		grid-template-areas:
+			"properties-filter"
+			"properties-list";
 	}
 
 	@media (min-width: 768px) {
-		.filter-wrapper {
+		/* .filter-wrapper {
 			height: 100vh;
 			display: grid;
 			position: relative;
-		}
+		} */
 		main {
+			grid-template-areas:
+				"properties-list"
+				"properties-filter";
 			grid-template-rows: 1fr;
 			grid-template-columns: 1fr 369px;
 		}
-		/* main :global(.map) {
-			width: 70vw;
-		} */
 	}
 
 	/*
 		PROPERTIES LIST SECTION
 	 */
-	/* .properties_list {
-		grid-area: list;
+	.properties_list.grid > :global(.property) {
+		grid-template-columns: 1fr;
+		/* grid-template-rows: minmax(auto, 222px) min-content auto min-content; */
+		grid-template-rows: minmax(auto, 222px) min-content min-content;
+		grid-template-areas:
+			"property-image"
+			"property-header"
+			"property-footer";
+		/* padding: 1rem 0 0; */
+	}
+	.properties_list {
+		grid-area: properties-list;
 		display: grid;
 		grid-template-columns: minmax(min-content, auto);
 		grid-template-rows: max-content;
 		grid-auto-flow: dense;
-		grid-gap: 1rem;
-		background: var(--bg-tertiary);
+		/* grid-gap: var(--gap-medium); */
+		row-gap: var(--gap-medium);
 		padding: 3rem 0;
 	}
 	@media (min-width: 768px) {
 		.properties_list.grid {
-			grid-template-columns: repeat(auto-fit, minmax(min-content, 252px));
+			/* grid-template-columns: repeat(auto-fit, minmax(min-content, 369px)); */
+			grid-template-columns: repeat(auto-fit, minmax(0, 369px));
+			justify-content: space-evenly;
 		}
 	}
-	@media (min-width: 1024px) {
+	/* @media (min-width: 1024px) {
 		.properties_list.grid {
 			grid-template-columns: repeat(auto-fit, minmax(min-content, 313px));
 		}
@@ -146,10 +157,10 @@
 		align-items: center;
 		background: var(--bg-secondary);
 	}
-	.nothing_to_see :global(svg) {
+	/* .nothing_to_see :global(svg) {
 		max-width: 63%;
-		/* filter: brightness(var(--brightness)); */
-	}
+		filter: brightness(var(--brightness));
+	} */
 
 	/*
 		FILTER SECTION

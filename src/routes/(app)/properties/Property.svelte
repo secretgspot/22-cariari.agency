@@ -8,14 +8,12 @@
 	let isAdmin = true;
 </script>
 
-<section
-	class="property"
-	class:deactivated={!property.is_active}
-	on:click={() => goto(`/${property.id}`)}
-	on:keydown
->
-	<figure class="property-image">
-		<!-- <figure class="property-image" style="background-image: url({property.photos[0]})" loading="lazy"> -->
+<section class="property" class:deactivated={!property.is_active}>
+	<figure
+		class="property-image"
+		on:click={() => goto(`/${property.id}`)}
+		on:keydown
+	>
 		{#if property.photo}
 			<img
 				src={property.photo}
@@ -24,9 +22,13 @@
 				intrinsicsize="281x222"
 			/>
 		{:else}
-			No Photo
+			<img
+				src="/placeholder/450x360.png"
+				alt="placeholder"
+				loading="lazy"
+				intrinsicsize="281x222"
+			/>
 		{/if}
-		<!-- <caption>{property.photos.length} images</caption> -->
 	</figure>
 
 	<div class="property-header">
@@ -58,35 +60,10 @@
 		</div>
 	</div>
 
-	<div class="property-details">
-		<details class="column wrap">
-			<summary>Details</summary>
-			{#if property.beds}<span>{property.beds} beds</span>{/if}
-			{#if property.baths}<span>{property.baths} baths</span>{/if}
-			{#if property.half_baths}<span>{property.half_baths} half baths</span
-				>{/if}
-			{#if property.rooms}<span>{property.rooms} rooms</span>{/if}
-			{#if property.parking_spaces}<span
-					>{property.parking_spaces} parkings</span
-				>{/if}
-			{#if property.lot_size}<span>{property.lot_size}㎡ lot</span>{/if}
-			{#if property.building_size}<span>{property.building_size}㎡</span>{/if}
-			{#if property.fees}<span>fees: {property.fees}</span>{/if}
-			{#if property.taxes}<span>taxes: {property.taxes}</span>{/if}
-			<!-- {#if property.id}<span>id: {property.id}</span>{/if} -->
-		</details>
-
-		<details class="column">
-			<summary>Contacts</summary>
-			{#if property.contact_phone}<span>{property.contact_phone}</span>{/if}
-			{#if property.contact_email}<span>{property.contact_email}</span>{/if}
-		</details>
-	</div>
-
 	<footer class="property-footer">
 		<div class="dates wrap">
-			<span>added {ago(new Date(property.created_at))} ago</span>
-			<span>updated {ago(new Date(property.updated_at))} ago</span>
+			<small>added {ago(new Date(property.created_at))} ago</small>
+			<small>updated {ago(new Date(property.updated_at))} ago</small>
 		</div>
 
 		<div class="details wrap">
@@ -99,7 +76,7 @@
 		<div class="buttons">
 			{#if isAdmin}
 				<!-- <Button href="property/{property.id}">Edit</Button> -->
-				<Button size="icon" on:click={() => goto(`property/${property.id}`)}
+				<Button size="icon" on:click={() => goto(`/${property.id}/edit`)}
 					>Edit</Button
 				>
 			{/if}
@@ -109,18 +86,6 @@
 </section>
 
 <style>
-	.properties_list.grid > .property {
-		grid-template-columns: 1fr;
-		/* grid-template-rows: minmax(auto, 222px) min-content auto min-content; */
-		grid-template-rows: minmax(auto, 222px) min-content min-content;
-		grid-template-areas:
-			"property-image"
-			"property-header"
-			/* "property-details" */
-			"property-footer";
-		/* padding: 1rem 0 0; */
-	}
-
 	/* PROPERTIES LIST -> PROPERTY */
 	.property {
 		display: grid;
@@ -130,11 +95,9 @@
 		grid-template-rows: 1fr auto;
 		grid-template-areas:
 			"property-header property-header"
-			/* "property-image property-details" */
 			"property-footer property-footer";
 		position: relative;
 		border: 0px solid var(--border-color);
-		border-radius: var(--border-radius);
 		/* margin: 1rem; */
 		background: var(--primary);
 		box-shadow: var(--shadow-small);
@@ -144,7 +107,6 @@
 		.property {
 			grid-template-areas:
 				"property-image property-header"
-				/* "property-image property-details" */
 				"property-image property-footer";
 			margin: 1rem;
 		}
@@ -155,8 +117,9 @@
 		grid-area: property-header;
 		display: flex;
 		flex-direction: column;
-		/* padding: 1rem; */
+		padding: var(--padding-small);
 		box-shadow: var(--shadow-small);
+		gap: var(--gap-extra-small);
 	}
 	.property-header .land_use {
 		display: flex;
@@ -186,10 +149,9 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		/* margin: 0; */
+		margin: 0;
 		position: relative;
 		background-size: cover;
-		border-radius: var(--border-radius) var(--border-radius) 0 0;
 		filter: brightness(var(--brightness));
 	}
 	.property-image img {
@@ -201,38 +163,15 @@
 	@media (min-width: 768px) {
 		/* .property-image img { width: 208px; height: auto; } */
 	}
-	@media (min-width: 1024px) {
-		.properties_list:not(.grid) > .property .property-image {
-			border-radius: var(--border-radius) 0 0 var(--border-radius);
-		}
-	}
-
-	/* PROPERTIES LIST -> PROPERTY -> DETAILS */
-	.property-details {
-		grid-area: property-details;
-		/* padding: 1rem; */
-		display: none;
-	}
-	.property-details details summary {
-		cursor: pointer;
-		color: var(--accent);
-	}
-	.property-details details > span {
-		/* margin: 0.2rem; */
-		display: inline-block;
-		/* padding: 0.2rem; */
-		border-radius: var(--border-radius);
-		background: var(--secondary);
-	}
 
 	/* PROPERTIES LIST -> PROPERTY -> FOOTER */
 	.property-footer {
 		grid-area: property-footer;
 		display: flex;
 		flex-direction: column;
-		background: var(--secondary);
-		border-bottom-left-radius: var(--border-radius);
-		border-bottom-right-radius: var(--border-radius);
+		background: var(--primary-focus);
+		padding: var(--padding-small);
+		gap: var(--gap-extra-small);
 	}
 	.property-footer .dates {
 		display: flex;
@@ -249,6 +188,7 @@
 	}
 	.property-footer .details .loc {
 		color: var(--accent-content);
+		font-size: x-small;
 	}
 
 	.property:hover .property-footer .buttons {
@@ -260,17 +200,4 @@
 		top: 0;
 		right: 0;
 	}
-	/* .property-footer :global(button) {
-		height: auto;
-		border-top-right-radius: 0;
-		border-top-left-radius: 0;
-		border-bottom-right-radius: 0;
-		border-top-width: 0;
-		border-right-width: 0;
-		background: var(--bg-primary);
-		color: var(--txt-primary);
-	} */
-	/* .property-footer :global(a) {
-	flex: 0 1 auto;
-} */
 </style>

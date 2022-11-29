@@ -3,14 +3,12 @@
 	export let label = "";
 	export let name = "";
 	export let disabled = false;
-	export let group;
 </script>
 
 <div class="checkbox-circle">
 	<input
 		type="checkbox"
 		bind:checked
-		bind:group
 		id={name}
 		value={label}
 		{name}
