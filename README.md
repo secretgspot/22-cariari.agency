@@ -49,5 +49,6 @@ Built with:
 - [ ] details page full-width overflow issue
 - [ ] map acting strange when layout changes
 - [ ] storage on the add property page
+- [ ] nav in properties page
 
 ## Lessons
