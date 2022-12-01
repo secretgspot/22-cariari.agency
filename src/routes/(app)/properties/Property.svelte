@@ -118,7 +118,7 @@
 		display: flex;
 		flex-direction: column;
 		padding: var(--padding-small);
-		box-shadow: var(--shadow-small);
+		/* box-shadow: var(--shadow-small); */
 		gap: var(--gap-extra-small);
 	}
 	.property-header .land_use {

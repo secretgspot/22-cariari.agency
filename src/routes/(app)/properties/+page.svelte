@@ -46,9 +46,9 @@
 				<Property {property} />
 			{/each}
 		{:else}
-			<div class="nothing_to_see">
-				<ErrorImage type="empty" />
-			</div>
+			<!-- <div class="nothing_to_see"> -->
+			<ErrorImage type="empty" />
+			<!-- </div> -->
 		{/if}
 	</div>
 
@@ -133,6 +133,7 @@
 		/* grid-gap: var(--gap-medium); */
 		row-gap: var(--gap-medium);
 		padding: 3rem 0;
+		position: relative;
 	}
 	@media (min-width: 768px) {
 		.properties_list.grid {

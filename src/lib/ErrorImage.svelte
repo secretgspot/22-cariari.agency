@@ -170,9 +170,9 @@
 
 <style>
 	svg {
-		width: 100vw;
-		height: 100vh;
-		position: fixed;
+		width: 100%;
+		height: 100%;
+		position: absolute;
 		z-index: -1;
 	}
 </style>
