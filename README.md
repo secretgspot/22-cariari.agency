@@ -42,7 +42,7 @@ Built with:
 
 ## Todo
 
-- [ ] in an edit, the map doesn't listen for GPS input
+- [x] in an edit, the map doesn't listen for GPS input
 - [ ] back button on UUID
 - [ ] pull and detect when a user is logged in and when a user is an admin
 - [ ] present sign-up with magic link only when the user completes the form

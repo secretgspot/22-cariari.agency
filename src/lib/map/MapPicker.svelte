@@ -5,6 +5,15 @@
 
 	let map, baseLayer, marker, positionData;
 
+	export function updategps(e) {
+		position = {
+			lat: e.latitude,
+			lng: e.longitude,
+		};
+		// position = `${e.latlng.lat}, ${e.latlng.lng}`;
+		marker.setLatLng(position).addTo(map);
+		map.setView(position, 16);
+	}
 	function onMapClick(e) {
 		position = {
 			lat: e.latlng.lat,

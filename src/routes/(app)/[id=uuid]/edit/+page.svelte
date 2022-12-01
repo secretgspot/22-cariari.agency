@@ -22,7 +22,8 @@
 		error = "",
 		message = "",
 		isAdmin = true,
-		won = false;
+		won = false,
+		gps;
 
 	async function getMsl() {
 		const { data: mslData, error: mslErr } = await supabase
@@ -46,9 +47,10 @@
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(
 				(pos) => {
-					console.log("📍", pos);
+					// console.log("📍", pos);
 					data.property.location.lat = pos.coords.latitude;
 					data.property.location.lng = pos.coords.longitude;
+					gps(pos.coords); // update position inside MapPicker
 				},
 				(err) => console.warn("💩", err),
 				{ enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
@@ -248,7 +250,10 @@
 					>Get current GPS</Button
 				>
 
-				<MapPicker bind:position={data.property.location} />
+				<MapPicker
+					bind:updategps={gps}
+					bind:position={data.property.location}
+				/>
 			</fieldset>
 		</div>
 	</section>
