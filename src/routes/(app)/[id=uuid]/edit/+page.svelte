@@ -12,6 +12,7 @@
 	import Uploader from "$lib/Uploader.svelte";
 	import Checkboxes from "$lib/Checkboxes.svelte";
 	import { confetti } from "@neoconfetti/svelte";
+	import { pad } from "$lib/utils/helpers.js";
 	import JsonDump from "$lib/JSONDump.svelte";
 
 	export let data;
@@ -33,14 +34,10 @@
 			.limit(1)
 			.single();
 		if (mslErr) error = mslErr.message;
-		// const response = await api.get(`properties.json`, null);
-		// let digits = [];
-		// for (let [key, value] of Object.entries(response)) {
-		// digits = [...digits, Number(value.msl.substring(3))];
-		// console.log(Number(value.msl.substring(3)));
-		// }
-		data.property.msl = `CR-${Math.max(Number(mslData.msl.substring(3))) + 1}`;
-		console.log("MSL DATA", Number(mslData.msl.substring(3)));
+		if (mslData) {
+			data.property.msl = `CR-${pad(Number(mslData.msl.substring(3)) + 1, 3)}`;
+			console.log("LAST MSL DIGIT", mslData.msl);
+		}
 	}
 
 	async function getPosition() {
