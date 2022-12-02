@@ -46,9 +46,9 @@ Built with:
 - [ ] back button on UUID
 - [ ] pull and detect when a user is logged in and when a user is an admin
 - [ ] present sign-up with magic link only when the user completes the form
-- [ ] details page full-width overflow issue
+- [/] details page full-width overflow issue
 - [ ] map acting strange when layout changes
-- [ ] storage on the add property page
+- [x] storage on the add property page
 - [ ] nav in properties page
 
 ## Lessons

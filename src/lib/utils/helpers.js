@@ -86,3 +86,16 @@ export function ago(val) {
 	}
 }
 // ago(new Date('2010-10-11T01:46:25.251Z')); // '8 years'
+
+
+// PAD NUMBER
+export function pad(n, width, z) {
+	z = z || '0';
+	n = n + '';
+	return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+}
+// pad(10, 4);      // 0010
+// pad(9, 4);       // 0009
+// pad(123, 4);     // 0123
+
+// pad(10, 4, '-'); // --10

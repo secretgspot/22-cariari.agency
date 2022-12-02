@@ -1,7 +1,8 @@
 <script>
 	import { onMount, onDestroy } from "svelte";
+	import { isEmpty } from "$lib/utils/helpers.js";
 
-	export let position = null;
+	export let position = {};
 
 	let map, baseLayer, marker, positionData;
 
@@ -67,7 +68,7 @@
 			icon: pickerIcon,
 		});
 
-		if (position) {
+		if (!isEmpty(position)) {
 			positionData = [+position.lat, +position.lng];
 			marker.setLatLng(positionData).addTo(map);
 			map.setView(positionData, 16);
