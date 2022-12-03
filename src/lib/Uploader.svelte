@@ -3,7 +3,7 @@
 	import { slide } from "svelte/transition";
 	import { supabase } from "$lib/db";
 	import { addToast } from "$lib/toasts/store";
-	// import JSONDump from "$lib/JSONDump.svelte";
+	import JSONDump from "$lib/JSONDump.svelte";
 
 	export let msl;
 	export let attachments = [];
@@ -122,10 +122,10 @@
 					.single();
 			if (updatePhotosTableErr) {
 				addToast({
-					message: `Failed to update category ${updatePhotosTableErr.message}`,
+					message: `Failed to attach photos to msl ${updatePhotosTableErr.message}`,
 					type: "error",
-					dismissible: false,
-					timeout: 3000,
+					dismissible: true,
+					timeout: 0,
 				});
 			}
 			if (updatePhotosTableData) {

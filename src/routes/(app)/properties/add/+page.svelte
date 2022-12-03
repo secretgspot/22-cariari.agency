@@ -15,6 +15,7 @@
 	import { storable } from "$lib/utils/storable.js";
 	import { pad } from "$lib/utils/helpers.js";
 	import JsonDump from "$lib/JSONDump.svelte";
+	import { onMount } from "svelte";
 
 	// export let data;
 	// export let form;
@@ -31,6 +32,10 @@
 	const property = storable({
 		is_active: true,
 		location: {},
+	});
+
+	onMount(async () => {
+		await getMsl();
 	});
 
 	async function getMsl() {
@@ -121,7 +126,7 @@
 				clearStorage();
 				form.reset();
 				won = true;
-				console.log("RESULT:", result);
+				console.log("RESULT:", result.data.id);
 				// goto(`/${$property.id}/print`);
 			}
 
@@ -164,9 +169,9 @@
 					bind:value={$property.msl}
 					disabled
 				/>
-				{#if !property.msl}
+				<!-- {#if !property.msl}
 					<Button type="button" size="block" on:click={getMsl}>Set</Button>
-				{/if}
+				{/if} -->
 			</fieldset>
 
 			<fieldset>
@@ -512,7 +517,6 @@
 
 	<!-- BUTTONS -->
 	<footer class="buttons-group">
-		<input type="hidden" hidden name="id" value={$property.id} />
 		<input type="hidden" hidden name="msl" value={$property.msl} />
 		<input
 			type="hidden"

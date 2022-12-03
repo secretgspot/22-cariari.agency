@@ -35,27 +35,27 @@
 			<div class="column">
 				{#if filter.filter_for.includes("Rent")}
 					<label class="range column">
-						{formatter.format(filter.rent)}
+						<!-- {formatter.format(filter.rent)} -->
 						<input
 							type="range"
 							min="100"
 							max="10000"
 							step="100"
 							bind:value={filter.rent}
-						/> <small>monthly</small>
+						/> <small>{formatter.format(filter.rent)} monthly</small>
 					</label>
 				{/if}
 
 				{#if filter.filter_for.includes("Sale") || filter.filter_for.includes("Investment")}
 					<label class="range column">
-						{formatter.format(filter.price)}
+						<!-- {formatter.format(filter.price)} -->
 						<input
 							type="range"
 							min="10000"
 							max="10000000"
 							step="10000"
 							bind:value={filter.price}
-						/> <small>price</small>
+						/> <small>{formatter.format(filter.price)} price</small>
 					</label>
 				{/if}
 			</div>

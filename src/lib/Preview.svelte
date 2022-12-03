@@ -123,7 +123,11 @@
 	</div>
 
 	<div class="commercial-wrapper">
-		<Ad width="320" height="100" />
+		<Ad width="320" height="100">
+			<a href="//pintarcariari.casa" target="_blank" rel="noreferrer">
+				<img src="/ads/pintarcariari-300x100.jpg" alt="Pintar Cariari" />
+			</a>
+		</Ad>
 	</div>
 
 	<footer>

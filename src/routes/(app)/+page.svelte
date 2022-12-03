@@ -38,7 +38,6 @@
 
 {#if !$navigating}
 	<LogoSvg animate={true} kind="gold" fixed="fixed" />
-	<Nav />
 {/if}
 
 <main class:preview={selectedProperty}>

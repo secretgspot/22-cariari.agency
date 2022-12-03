@@ -1,9 +1,13 @@
 <script>
 	/** @type {import('./$types').PageData} */
+	import { navigating, page } from "$app/stores";
+	import { goto } from "$app/navigation";
 	import JsonDump from "$lib/JSONDump.svelte";
 	import ErrorImage from "$lib/ErrorImage.svelte";
 	import Property from "./Property.svelte";
 	import Filter from "./Filter.svelte";
+	import Logo from "$lib/Logo.svelte";
+	import Nav from "$lib/Nav.svelte";
 
 	export let data;
 
@@ -39,8 +43,13 @@
 	}
 </script>
 
+{#if !$navigating}
+	<Logo type="regular" color="bw" fixed="fixed" on:click={() => goto("/")} />
+{/if}
+
 <main>
 	<div class="properties_list {view_style}">
+		<Nav />
 		{#if filtered.length > 0}
 			{#each filtered as property (property.id)}
 				<Property {property} />

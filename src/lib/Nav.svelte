@@ -9,8 +9,12 @@
 	{#if url != "/"}
 		<li><LinkButton href="/">Map</LinkButton></li>
 	{/if}
-	<li><LinkButton href="/properties">Properties</LinkButton></li>
-	<li><LinkButton href="/properties/add">Add</LinkButton></li>
+	{#if url != "/properties"}
+		<li><LinkButton href="/properties">Properties</LinkButton></li>
+	{/if}
+	{#if url != "/properties/add"}
+		<li><LinkButton href="/properties/add">Add</LinkButton></li>
+	{/if}
 	{#if url != "/about"}
 		<li><LinkButton href="/about">About</LinkButton></li>
 	{/if}

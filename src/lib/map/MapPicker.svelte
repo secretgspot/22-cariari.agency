@@ -46,7 +46,7 @@
 
 		map = L.map("map-canvas", {
 			zoomControl: false, // Add zoom control separately below
-			center: [9.933576017916193, -84.0551265784177], // Initial map center
+			center: [9.970881419133026, -84.16046619415285], // Initial map center
 			maxBounds: L.latLngBounds([
 				[9.980261288306549, -84.17891979217531],
 				[9.962086432098069, -84.14235591888429],
