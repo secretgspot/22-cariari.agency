@@ -45,11 +45,11 @@
 
 {#if !$navigating}
 	<Logo type="regular" color="bw" fixed="fixed" on:click={() => goto("/")} />
+	<Nav />
 {/if}
 
 <main>
 	<div class="properties_list {view_style}">
-		<Nav />
 		{#if filtered.length > 0}
 			{#each filtered as property (property.id)}
 				<Property {property} />
@@ -63,26 +63,34 @@
 
 	<aside class="filter-wrapper">
 		<div class="filters-menu">
-			<div class="view_type">
-				<input
-					type="radio"
-					id="radio_grid"
-					bind:group={view_style}
-					value="grid"
-				/>
-				<label class="radio radio_grid" for="radio_grid"
-					><span>☷<!-- &#9783; --></span></label
+			<div class="view_type {view_style}">
+				<label
+					class="radio radio_grid"
+					class:active={view_style == "grid"}
+					for="radio_grid"
 				>
+					<span>☷<!-- &#9783; --></span>
+					<input
+						type="radio"
+						id="radio_grid"
+						bind:group={view_style}
+						value="grid"
+					/>
+				</label>
 
-				<input
-					type="radio"
-					id="radio_list"
-					bind:group={view_style}
-					value="list"
-				/>
-				<label class="radio radio_list" for="radio_list"
-					><span>☰<!-- &#9776; --></span></label
+				<label
+					class="radio radio_list"
+					class:active={view_style == "list"}
+					for="radio_list"
 				>
+					<span>☰<!-- &#9776; --></span>
+					<input
+						type="radio"
+						id="radio_list"
+						bind:group={view_style}
+						value="list"
+					/>
+				</label>
 			</div>
 
 			<h3>{filtered.length} / {data.properties.length}</h3>
@@ -140,8 +148,8 @@
 		grid-template-rows: max-content;
 		grid-auto-flow: dense;
 		/* grid-gap: var(--gap-medium); */
-		row-gap: var(--gap-medium);
-		padding: 3rem 0;
+		row-gap: var(--gap-small);
+		padding: var(--padding-large) 0;
 		position: relative;
 	}
 	@media (min-width: 768px) {
@@ -184,7 +192,7 @@
 		grid-template-columns: repeat(3, 1fr);
 		align-items: center;
 		justify-items: center;
-		margin: 0 2rem;
+		/* margin: 0 var(--padding-small); */
 	}
 	.filters-menu h3 {
 		white-space: nowrap;
@@ -198,11 +206,10 @@
 		}
 	}
 	.view_type label {
-		border: 1px solid var(--border);
-		padding: 0.5rem 1rem;
-		color: var(--txt-primary);
-		border-radius: 9px;
-		box-shadow: 1px 1px 3px var(--shadow);
+		border: var(--border);
+		padding: var(--padding-extra-small);
+		border-radius: var(--border-radius);
+		box-shadow: var(--shadow);
 		cursor: pointer;
 	}
 
@@ -217,7 +224,8 @@
 	.view_type input[type="radio"] {
 		display: none;
 	}
-	.view_type input[type="radio"]:checked + label {
-		border: 1px solid var(--color-success);
+	.view_type label:has(input[type="radio"]:checked) {
+		border: 1px solid var(--accent);
+		box-shadow: inset 0px 0px 0 3px var(--success);
 	}
 </style>
