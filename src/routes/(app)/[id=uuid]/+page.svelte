@@ -1,6 +1,6 @@
 <script>
 	/** @type {import('./$types').PageData} */
-	import { navigating } from "$app/stores";
+	import { navigating, page } from "$app/stores";
 	import { base } from "$app/paths";
 	import {
 		goto,
@@ -21,16 +21,11 @@
 
 	export let data;
 
-	// let previousPage = base;
+	let previousPage = base;
 
-	// afterNavigate(({ from }) => {
-	// 	if (from == null) {
-	// 		previousPage = "/";
-	// 	} else {
-	// 		previousPage = from?.url.pathname || previousPage;
-	// 	}
-	// 	console.log("🎄", from);
-	// });
+	afterNavigate(({ from }) => {
+		previousPage = from?.url.pathname || previousPage;
+	});
 
 	// $: console.log("previous page: ", previousPage);
 </script>
@@ -95,7 +90,7 @@
 
 	<!-- SIDE PANE -->
 	<div class="side scroller">
-		<Button size="icon" class="close" on:click={() => goto("/")}>
+		<Button size="icon" class="close" on:click={() => goto(previousPage)}>
 			<svelte:fragment slot="icon"
 				><svg
 					width="24px"

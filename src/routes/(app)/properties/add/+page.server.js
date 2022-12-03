@@ -34,7 +34,7 @@ export const actions = {
 		const formData = await request.formData();
 
 		const property = {
-			updated_at: new Date().toISOString(),
+			// updated_at: new Date().toISOString(),
 			msl: formData.get('msl'),
 			is_active: (formData.get('is_active') == 'Listed' ? true : false),
 			description: formData.get('description'),

@@ -102,6 +102,7 @@
 		background: var(--primary);
 		box-shadow: var(--shadow-small);
 		cursor: default;
+		position: relative;
 	}
 	@media (min-width: 1024px) {
 		.property {
@@ -110,6 +111,14 @@
 				"property-image property-footer";
 			margin: 1rem;
 		}
+	}
+	.deactivated::after {
+		content: "Delisted";
+		position: absolute;
+		background: var(--warning);
+		color: var(--warning-content);
+		padding: var(--padding-extra-small);
+		opacity: 0.6;
 	}
 
 	/* PROPERTIES LIST -> PROPERTY -> HEADER */

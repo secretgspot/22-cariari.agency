@@ -155,7 +155,8 @@
 				await applyAction(result);
 			}
 			loading = false;
-			update({ reset: false });
+			// update({ reset: false });
+			// update();
 		};
 	}}
 >
