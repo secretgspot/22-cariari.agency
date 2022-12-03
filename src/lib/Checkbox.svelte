@@ -67,7 +67,8 @@
 		border: 1px solid var(--accent);
 		width: 1.3em;
 		height: 1.3em;
-		background: var(--success);
+		/* background: var(--success); */
+		box-shadow: inset 0px 0px 0 3px var(--success);
 	}
 
 	/* checkbox-circle end */

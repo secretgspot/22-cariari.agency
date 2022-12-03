@@ -46,7 +46,6 @@ Built with:
 - [ ] pull and detect when a user is logged in and when a user is an admin
 - [ ] present sign-up with magic link only when the user completes the form
 - [ ] map acting strange when layout changes
-- [x] add fails if features not presented
 - [ ] filters not showing all (caused by invalid input to db, which?)
 - [ ] sometimes from edit clicking on property doesn't work
 

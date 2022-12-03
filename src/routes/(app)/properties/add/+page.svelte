@@ -595,8 +595,7 @@
 	>
 </Modal> -->
 
-<JsonDump name="property" data={$property} />
-
+<!-- <JsonDump name="property" data={$property} /> -->
 <style>
 	.add-property {
 		display: grid;
