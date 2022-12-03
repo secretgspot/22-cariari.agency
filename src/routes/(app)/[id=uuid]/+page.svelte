@@ -24,7 +24,8 @@
 	let previousPage = base;
 
 	afterNavigate(({ from }) => {
-		previousPage = from?.url.pathname || previousPage;
+		previousPage = from?.url.pathname == undefined ? "/" : from?.url.pathname;
+		console.log("pathname page: ", from?.url.pathname);
 	});
 
 	// $: console.log("previous page: ", previousPage);

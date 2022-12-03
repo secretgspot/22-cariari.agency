@@ -42,7 +42,7 @@ Built with:
 
 ## Todo
 
-- [ ] back button on UUID
+- [x] back button on UUID
 - [ ] pull and detect when a user is logged in and when a user is an admin
 - [ ] present sign-up with magic link only when the user completes the form
 - [ ] map acting strange when layout changes
