@@ -175,7 +175,7 @@
 	</div>
 
 	<div class="file-list">
-		{#each attachments as file (file)}
+		{#each attachments || [] as file (file)}
 			<div class="card" transition:slide|local={{ duration: 93 }}>
 				<img src={file.file_url} alt={file.name} />
 				<div class="file-action">

@@ -16,6 +16,7 @@
 	import { pad } from "$lib/utils/helpers.js";
 	import JsonDump from "$lib/JSONDump.svelte";
 	import { onMount } from "svelte";
+	import { addToast } from "$lib/toasts/store";
 
 	// export let data;
 	// export let form;
@@ -32,6 +33,7 @@
 	const property = storable({
 		is_active: true,
 		location: {},
+		features: [],
 	});
 
 	onMount(async () => {
@@ -126,8 +128,14 @@
 				clearStorage();
 				form.reset();
 				won = true;
-				console.log("RESULT:", result.data.id);
-				// goto(`/${$property.id}/print`);
+				console.log("RESULT:", result.data);
+				addToast({
+					message: result.data.message,
+					type: "success",
+					dismissible: true,
+					timeout: 1200,
+				});
+				goto(`/${result.data.property_id}/print`);
 			}
 
 			if (result.type === "invalid") {
@@ -135,7 +143,7 @@
 				await applyAction(result);
 			}
 			loading = false;
-			update({ reset: false });
+			// update({ reset: false });
 		};
 	}}
 >
@@ -315,6 +323,7 @@
 					type="number"
 					name="lot_size"
 					placeholder="ex: 900"
+					min="0"
 					bind:value={$property.lot_size}
 				/>
 			</fieldset>
@@ -325,6 +334,7 @@
 					type="number"
 					name="building_size"
 					placeholder="ex: 810"
+					min="0"
 					bind:value={$property.building_size}
 				/>
 			</fieldset>
@@ -348,6 +358,7 @@
 					type="number"
 					name="beds"
 					placeholder="ex: 3"
+					min="0"
 					bind:value={$property.beds}
 				/>
 			</fieldset>
@@ -358,6 +369,7 @@
 					type="number"
 					name="baths"
 					placeholder="ex: 3"
+					min="0"
 					bind:value={$property.baths}
 				/>
 			</fieldset>
@@ -368,6 +380,7 @@
 					type="number"
 					name="half_baths"
 					placeholder="ex: 2"
+					min="0"
 					bind:value={$property.half_baths}
 				/>
 			</fieldset>
@@ -378,6 +391,7 @@
 					type="number"
 					name="rooms"
 					placeholder="ex: 6"
+					min="0"
 					bind:value={$property.rooms}
 				/>
 			</fieldset>
@@ -388,6 +402,7 @@
 					type="number"
 					name="parking_spaces"
 					placeholder="ex: 9"
+					min="0"
 					bind:value={$property.parking_spaces}
 				/>
 			</fieldset>
@@ -411,6 +426,7 @@
 					type="number"
 					name="price"
 					placeholder="ex: 630000"
+					min="0"
 					bind:value={$property.price}
 				/>
 			</fieldset>
@@ -421,6 +437,7 @@
 					type="number"
 					name="rent"
 					placeholder="ex: 1800"
+					min="0"
 					bind:value={$property.rent}
 				/>
 			</fieldset>
@@ -431,6 +448,7 @@
 					type="number"
 					name="taxes"
 					placeholder="ex: 1500"
+					min="0"
 					bind:value={$property.taxes}
 				/>
 			</fieldset>
@@ -441,6 +459,7 @@
 					type="number"
 					name="fees"
 					placeholder="ex: 120"
+					min="0"
 					bind:value={$property.fees}
 				/>
 			</fieldset>

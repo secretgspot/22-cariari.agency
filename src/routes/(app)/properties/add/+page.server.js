@@ -82,7 +82,8 @@ export const actions = {
 
 		return {
 			success: true,
-			message: `Property ${resData} added successfully!`
+			property_id: resData.id,
+			message: `Property ${resData.msl} added successfully!`
 		}
 
 	},
