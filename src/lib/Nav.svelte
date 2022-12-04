@@ -2,10 +2,12 @@
 	import { page } from "$app/stores";
 	import { LinkButton } from "$lib/buttons";
 
+	export let sticky = false;
+
 	$: url = $page.url.pathname;
 </script>
 
-<nav>
+<nav class:sticky>
 	{#if url != "/"}
 		<li><LinkButton href="/">Map</LinkButton></li>
 	{/if}
@@ -33,5 +35,9 @@
 		backdrop-filter: blur(3px);
 		padding: var(--padding-extra-small);
 		border-radius: var(--border-radius);
+	}
+	.sticky {
+		position: sticky;
+		top: 0;
 	}
 </style>

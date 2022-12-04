@@ -62,45 +62,47 @@
 	</div>
 
 	<aside class="filter-wrapper">
-		<div class="filters-menu">
-			<div class="view_type {view_style}">
-				<label
-					class="radio radio_grid"
-					class:active={view_style == "grid"}
-					for="radio_grid"
-				>
-					<span>☷<!-- &#9783; --></span>
-					<input
-						type="radio"
-						id="radio_grid"
-						bind:group={view_style}
-						value="grid"
-					/>
-				</label>
+		<div class="filter-sticky">
+			<div class="filters-menu">
+				<div class="view_type {view_style}">
+					<label
+						class="radio radio_grid"
+						class:active={view_style == "grid"}
+						for="radio_grid"
+					>
+						<span>☷<!-- &#9783; --></span>
+						<input
+							type="radio"
+							id="radio_grid"
+							bind:group={view_style}
+							value="grid"
+						/>
+					</label>
 
-				<label
-					class="radio radio_list"
-					class:active={view_style == "list"}
-					for="radio_list"
-				>
-					<span>☰<!-- &#9776; --></span>
-					<input
-						type="radio"
-						id="radio_list"
-						bind:group={view_style}
-						value="list"
-					/>
-				</label>
+					<label
+						class="radio radio_list"
+						class:active={view_style == "list"}
+						for="radio_list"
+					>
+						<span>☰<!-- &#9776; --></span>
+						<input
+							type="radio"
+							id="radio_list"
+							bind:group={view_style}
+							value="list"
+						/>
+					</label>
+				</div>
+
+				<h3>{filtered.length} / {data.properties.length}</h3>
+
+				<!-- {#if isAdmin}
+				<Button href="/property">Add new</Button>
+				{/if} -->
 			</div>
 
-			<h3>{filtered.length} / {data.properties.length}</h3>
-
-			<!-- {#if isAdmin}
-					<Button href="/property">Add new</Button>
-				{/if} -->
+			<Filter bind:filter />
 		</div>
-
-		<Filter bind:filter />
 	</aside>
 </main>
 
@@ -184,9 +186,13 @@
 		FILTER SECTION
 	 */
 	.filters-wrappers {
-		position: sticky;
-		top: 0px;
+		position: relative;
 	}
+	.filter-sticky {
+		position: sticky;
+		top: 0;
+	}
+
 	.filters-menu {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
