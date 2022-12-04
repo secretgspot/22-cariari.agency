@@ -1,11 +1,13 @@
 <script>
+	import { navigating, page } from "$app/stores";
 	import { goto } from "$app/navigation";
 	import { formatter, ago } from "$lib/utils/helpers.js";
 	import { Button, LinkButton } from "$lib/buttons";
 
 	export let property;
 
-	let isAdmin = true;
+	let isAdmin = $page.data.session?.user.app_metadata.claims_admin ?? false;
+	let user_id = $page.data?.session?.user.id;
 </script>
 
 <section class="property" class:deactivated={!property.is_active}>
@@ -74,7 +76,7 @@
 		</div>
 
 		<div class="buttons">
-			{#if isAdmin}
+			{#if user_id === property.user_id || isAdmin}
 				<!-- <Button href="property/{property.id}">Edit</Button> -->
 				<Button size="block" on:click={() => goto(`/${property.id}/edit`)}
 					>Edit</Button

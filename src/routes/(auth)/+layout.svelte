@@ -18,7 +18,6 @@
 		align-items: center;
 		gap: var(--gap-medium);
 		width: 100%;
-		max-width: var(--max-width);
-		margin-bottom: var(--padding-large);
+		height: 100vh;
 	}
 </style>

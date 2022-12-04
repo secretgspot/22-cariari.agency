@@ -24,6 +24,14 @@
 </script>
 
 <form on:submit|preventDefault={submit}>
+	<p>
+		No password or personal information is required to list your properties.<br
+		/>
+		Email will is used to correlate your property, only you can edit properties you've
+		listed. After confirming your email you will be redirected back to the site with
+		access to add and edit forms.
+	</p>
+
 	<input
 		type="email"
 		name="email"
@@ -41,3 +49,23 @@
 		<Text type="error">{error}</Text>
 	{/if}
 </form>
+
+<style>
+	form {
+		display: flex;
+		flex-direction: column;
+		gap: var(--gap-small);
+	}
+	input[type="email"] {
+		display: block;
+		padding: var(--padding-small);
+		color: var(--primary-content);
+		border: var(--border);
+		border-radius: var(--border-radius);
+		width: 100%;
+		background: transparent;
+	}
+	p {
+		max-width: 369px;
+	}
+</style>

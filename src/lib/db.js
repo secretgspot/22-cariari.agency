@@ -34,12 +34,13 @@ supabase.auth.onAuthStateChange(async (event, session) => {
 	if (event == 'SIGNED_IN') {
 		userStore.set(session.user);
 		console.log('SIGNED_IN  🔥🔥🔥');
+		invalidateAll();
 	};
 	if (event == 'SIGNED_OUT') {
 		console.log('SIGNED_OUT 💩💩💩');
 		userStore.set({});
-		invalidateAll();
-		// goto('/login');
+		// invalidateAll();
+		goto('/');
 	};
 	if (event == 'TOKEN_REFRESHED') console.log('TOKEN_REFRESHED');
 	if (event == 'USER_UPDATED') console.log('USER_UPDATED');

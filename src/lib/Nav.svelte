@@ -1,10 +1,16 @@
 <script>
 	import { page } from "$app/stores";
+	import { supabase } from "$lib/db";
 	import { LinkButton } from "$lib/buttons";
 
 	export let sticky = false;
 
 	$: url = $page.url.pathname;
+
+	async function handleSignOut() {
+		localStorage.clear();
+		await supabase.auth.signOut();
+	}
 </script>
 
 <nav class:sticky>
@@ -19,6 +25,9 @@
 	{/if}
 	{#if url != "/about"}
 		<li><LinkButton href="/about">About</LinkButton></li>
+	{/if}
+	{#if $page.data.session}
+		<li><LinkButton on:click={handleSignOut}>Sign-out</LinkButton></li>
 	{/if}
 </nav>
 
