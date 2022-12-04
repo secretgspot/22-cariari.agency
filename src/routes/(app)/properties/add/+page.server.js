@@ -11,13 +11,20 @@ export async function load(event) {
 	const { params, route } = event;
 
 	const { session, supabaseClient } = await getSupabase(event);
-	if (session?.user.app_metadata.claims_admin) {
-		console.log('🌟');
+
+	if (!session) {
+		throw redirect(303, '/login');
 	}
+
+
+	// if (session?.user.app_metadata.claims_admin) {
+	// 	console.log('🌟');
+	// }
 
 
 	return {};
 };
+
 export const actions = {
 
 	// ADD PROPERTY
@@ -35,6 +42,7 @@ export const actions = {
 
 		const property = {
 			// updated_at: new Date().toISOString(),
+			user_id: formData.get('user_id'),
 			msl: formData.get('msl'),
 			is_active: (formData.get('is_active') == 'Listed' ? true : false),
 			description: formData.get('description'),
@@ -61,7 +69,7 @@ export const actions = {
 			contact_realtor: formData.get('contact_realtor'),
 		}
 
-		console.log('/properties/add/+page.server.js action -> add: ', property);
+		// console.log('/properties/add/+page.server.js action -> add: ', property);
 
 		// push it to the server
 		const { data: resData, error: resErr } = await supabaseClient.from('properties').insert(property).select().maybeSingle();

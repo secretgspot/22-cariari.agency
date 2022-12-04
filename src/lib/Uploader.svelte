@@ -1,4 +1,5 @@
 <script>
+	import { page } from "$app/stores";
 	import { Button } from "$lib/buttons";
 	import { slide } from "svelte/transition";
 	import { supabase } from "$lib/db";
@@ -151,7 +152,7 @@
 	};
 </script>
 
-<!-- <JSONDump name="attachments" data={attachments} /> -->
+<JSONDump name="attachments" data={attachments} />
 <!-- <button on:click|preventDefault={emptyBucket}>Clear Bucket</button> -->
 
 <div class="drop-container">
@@ -178,29 +179,31 @@
 		{#each attachments || [] as file (file)}
 			<div class="card" transition:slide|local={{ duration: 93 }}>
 				<img src={file.file_url} alt={file.name} />
-				<div class="file-action">
-					<Button
-						type="button"
-						size="icon"
-						disabled={loading}
-						{loading}
-						on:click={deleteFile(file.name)}
-					>
-						<svelte:fragment slot="icon"
-							><svg
-								fill="currentColor"
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 24 24"
-								width="18px"
-								height="18px"
-								><path
-									d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"
-								/></svg
-							></svelte:fragment
+				{#if $page.data.session.user.id == file.user_id}
+					<div class="file-action">
+						<Button
+							type="button"
+							size="icon"
+							disabled={loading}
+							{loading}
+							on:click={deleteFile(file.name)}
 						>
-						Delete
-					</Button>
-				</div>
+							<svelte:fragment slot="icon"
+								><svg
+									fill="currentColor"
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									width="18px"
+									height="18px"
+									><path
+										d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"
+									/></svg
+								></svelte:fragment
+							>
+							Delete
+						</Button>
+					</div>
+				{/if}
 			</div>
 		{/each}
 	</div>

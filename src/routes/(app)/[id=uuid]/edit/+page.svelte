@@ -646,7 +646,8 @@
 	>
 </Modal> -->
 
-<!-- <JsonDump name="data" {data} /> -->
+<JsonDump name="data" {data} />
+
 <style>
 	.edit-property {
 		display: grid;

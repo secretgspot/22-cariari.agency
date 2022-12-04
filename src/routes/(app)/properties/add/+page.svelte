@@ -536,6 +536,12 @@
 
 	<!-- BUTTONS -->
 	<footer class="buttons-group">
+		<input
+			type="hidden"
+			hidden
+			name="user_id"
+			value={$page.data?.session?.user.id}
+		/>
 		<input type="hidden" hidden name="msl" value={$property.msl} />
 		<input
 			type="hidden"
@@ -595,7 +601,8 @@
 	>
 </Modal> -->
 
-<!-- <JsonDump name="property" data={$property} /> -->
+<JsonDump name="page" data={$page} />
+
 <style>
 	.add-property {
 		display: grid;
