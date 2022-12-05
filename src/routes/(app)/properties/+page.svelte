@@ -195,14 +195,15 @@
 
 	.filters-menu {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(2, 1fr);
 		align-items: center;
 		justify-items: center;
 		/* margin: 0 var(--padding-small); */
+		padding: var(--padding-small);
 	}
 	@media (min-width: 720px) {
 		.filters-menu {
-			padding: var(--padding-small);
+			grid-template-columns: repeat(3, 1fr);
 		}
 	}
 	.filters-menu h3 {
