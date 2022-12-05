@@ -50,5 +50,6 @@ Built with:
 - [ ] sometimes from edit clicking on the property doesn't work
 - [ ] signout in nav (issue with the sign-out and getting stuck on loader)
 - [x] look into OTP <https://github.com/supabase/supabase/discussions/4837>
+- [ ] figure out mail templating in supabase to send Token only
 
 ## Lessons

@@ -15,6 +15,7 @@
 	import { confetti } from "@neoconfetti/svelte";
 	import { pad } from "$lib/utils/helpers.js";
 	import JsonDump from "$lib/JSONDump.svelte";
+	import Login from "$lib/Login.svelte";
 
 	export let data;
 
@@ -125,421 +126,424 @@
 	<Nav />
 {/if}
 
-<form
-	class="edit-property"
-	method="POST"
-	action="?/edit"
-	use:enhance={({ form, data, action, cancel }) => {
-		// 'form' is the '<form>' element
-		// 'data' is it's 'FormData' object
-		// 'action' is the URL to which the form is posted
-		// 'cancel()' will prevent the submission
+{#if !data.logged_in}
+	<Login />
+{:else}
+	<form
+		class="edit-property"
+		method="POST"
+		action="?/edit"
+		use:enhance={({ form, data, action, cancel }) => {
+			// 'form' is the '<form>' element
+			// 'data' is it's 'FormData' object
+			// 'action' is the URL to which the form is posted
+			// 'cancel()' will prevent the submission
 
-		// ALL THIS RUNS BEFORE SUBMISSION TO SERVER
-		loading = true;
-		message = "";
-		error = "";
+			// ALL THIS RUNS BEFORE SUBMISSION TO SERVER
+			loading = true;
+			message = "";
+			error = "";
 
-		// prevent default callback from resetting the form
-		return async ({ result, update }) => {
-			if (result.type === "success") {
-				// reset form
-				// clearStorage();
-				// form.reset();
-				message = result.data.message;
-				await applyAction(result);
-			}
+			// prevent default callback from resetting the form
+			return async ({ result, update }) => {
+				if (result.type === "success") {
+					// reset form
+					// clearStorage();
+					// form.reset();
+					message = result.data.message;
+					await applyAction(result);
+				}
 
-			if (result.type === "invalid") {
-				error = result.data.message;
-				await applyAction(result);
-			}
-			loading = false;
-			// update({ reset: false });
-			// update();
-		};
-	}}
->
-	<!-- PROPERTY TYPE -->
-	<section class="section section_property_type">
-		<div class="header">
-			<h3>Property type</h3>
-			<p>
-				Categories listing in appropriate section and coloring on the map. Is
-				part of filtering.
-			</p>
-		</div>
+				if (result.type === "invalid") {
+					error = result.data.message;
+					await applyAction(result);
+				}
+				loading = false;
+				// update({ reset: false });
+				// update();
+			};
+		}}
+	>
+		<!-- PROPERTY TYPE -->
+		<section class="section section_property_type">
+			<div class="header">
+				<h3>Property type</h3>
+				<p>
+					Categories listing in appropriate section and coloring on the map. Is
+					part of filtering.
+				</p>
+			</div>
 
-		<div class="inputs">
-			{#if isAdmin}
+			<div class="inputs">
+				{#if isAdmin}
+					<fieldset>
+						<legend>Status</legend>
+						<Toggle
+							name="is_active"
+							bind:checked={data.property.is_active}
+							label={data.property.is_active ? "Listed" : "Delisted"}
+						/>
+					</fieldset>
+				{/if}
+
+				<fieldset class={data.property.is_active ? "active" : "removed"}>
+					<legend>MSL</legend>
+					<input
+						type="text"
+						placeholder="ex: CR-001"
+						bind:value={data.property.msl}
+						disabled
+					/>
+					{#if !data.property.msl}
+						<Button type="button" size="block" on:click={getMsl}>Set</Button>
+					{/if}
+				</fieldset>
+
 				<fieldset>
-					<legend>Status</legend>
-					<Toggle
-						name="is_active"
-						bind:checked={data.property.is_active}
-						label={data.property.is_active ? "Listed" : "Delisted"}
+					<legend>Land Use</legend>
+					<select name="land_use" bind:value={data.property.land_use}>
+						<option>Residential</option>
+						<option>Commercial</option>
+						<option>Industrial</option>
+					</select>
+				</fieldset>
+
+				<fieldset class="flow">
+					<legend>Property For</legend>
+					<Checkboxes bind:selected={data.property.property_for} />
+				</fieldset>
+			</div>
+		</section>
+
+		<!-- PROPERTY LOCATION -->
+		<section class="section section_location">
+			<div class="header">
+				<h3>Location</h3>
+				<p>
+					GPS coordinates and physical address. Location displayed on map via
+					GPS, accuracy is important.
+				</p>
+			</div>
+
+			<div class="inputs">
+				<fieldset>
+					<legend>Address</legend>
+					<input
+						type="text"
+						name="address"
+						placeholder="ex: Avenida 52, Provincia Heredia, La Asunción, 40703"
+						bind:value={data.property.address}
 					/>
 				</fieldset>
-			{/if}
 
-			<fieldset class={data.property.is_active ? "active" : "removed"}>
-				<legend>MSL</legend>
-				<input
-					type="text"
-					placeholder="ex: CR-001"
-					bind:value={data.property.msl}
-					disabled
-				/>
-				{#if !data.property.msl}
-					<Button type="button" size="block" on:click={getMsl}>Set</Button>
-				{/if}
-			</fieldset>
+				<fieldset class="location">
+					<legend>Location (lat, lng)</legend>
+					<input
+						type="text"
+						placeholder="ex: 9.97542"
+						bind:value={data.property.location.lat}
+					/>
+					<input
+						type="text"
+						placeholder="ex: -84.163443"
+						bind:value={data.property.location.lng}
+					/>
+					<Button type="button" size="block" on:click={getPosition}
+						>Get current GPS</Button
+					>
 
-			<fieldset>
-				<legend>Land Use</legend>
-				<select name="land_use" bind:value={data.property.land_use}>
-					<option>Residential</option>
-					<option>Commercial</option>
-					<option>Industrial</option>
-				</select>
-			</fieldset>
+					<MapPicker
+						bind:updategps={gps}
+						bind:position={data.property.location}
+					/>
+				</fieldset>
+			</div>
+		</section>
 
-			<fieldset class="flow">
-				<legend>Property For</legend>
-				<Checkboxes bind:selected={data.property.property_for} />
-			</fieldset>
-		</div>
-	</section>
+		<!-- PROPERTY CONTACTS -->
+		<section class="section section_contacts">
+			<div class="header">
+				<h3>Contacts</h3>
+				<p>
+					Email and Phone number of a realtor or person selling the property,
+					usually found on a placard in front of the data.property.
+				</p>
+			</div>
 
-	<!-- PROPERTY LOCATION -->
-	<section class="section section_location">
-		<div class="header">
-			<h3>Location</h3>
-			<p>
-				GPS coordinates and physical address. Location displayed on map via GPS,
-				accuracy is important.
-			</p>
-		</div>
+			<div class="inputs">
+				<fieldset>
+					<legend>Phone</legend>
+					<input
+						type="tel"
+						name="contact_phone"
+						placeholder="ex: 1234-5678"
+						bind:value={data.property.contact_phone}
+					/>
+				</fieldset>
 
-		<div class="inputs">
-			<fieldset>
-				<legend>Address</legend>
-				<input
-					type="text"
-					name="address"
-					placeholder="ex: Avenida 52, Provincia Heredia, La Asunción, 40703"
-					bind:value={data.property.address}
-				/>
-			</fieldset>
+				<fieldset>
+					<legend>Email</legend>
+					<input
+						type="email"
+						name="contact_email"
+						placeholder="ex: this@that.there"
+						bind:value={data.property.contact_email}
+					/>
+				</fieldset>
 
-			<fieldset class="location">
-				<legend>Location (lat, lng)</legend>
-				<input
-					type="text"
-					placeholder="ex: 9.97542"
-					bind:value={data.property.location.lat}
-				/>
-				<input
-					type="text"
-					placeholder="ex: -84.163443"
-					bind:value={data.property.location.lng}
-				/>
-				<Button type="button" size="block" on:click={getPosition}
-					>Get current GPS</Button
-				>
+				<fieldset>
+					<legend>Realtor</legend>
+					<input
+						type="text"
+						name="contact_realtor"
+						placeholder="ex: Re/Max or Jane Doe"
+						bind:value={data.property.contact_realtor}
+					/>
+				</fieldset>
+			</div>
+		</section>
 
-				<MapPicker
-					bind:updategps={gps}
-					bind:position={data.property.location}
-				/>
-			</fieldset>
-		</div>
-	</section>
+		<!-- PROPERTY BASICS -->
+		<section class="section section_basics">
+			<div class="header">
+				<h3>Basics</h3>
+				<p>
+					These are initial values and usually first thing user looks for when
+					narrowing down their options.
+				</p>
+			</div>
 
-	<!-- PROPERTY CONTACTS -->
-	<section class="section section_contacts">
-		<div class="header">
-			<h3>Contacts</h3>
-			<p>
-				Email and Phone number of a realtor or person selling the property,
-				usually found on a placard in front of the data.property.
-			</p>
-		</div>
+			<div class="inputs">
+				<fieldset>
+					<legend>Year built</legend>
+					<input
+						type="number"
+						name="year_built"
+						placeholder="ex: 2019"
+						min="1900"
+						max="2099"
+						step="1"
+						bind:value={data.property.year_built}
+					/>
+				</fieldset>
 
-		<div class="inputs">
-			<fieldset>
-				<legend>Phone</legend>
-				<input
-					type="tel"
-					name="contact_phone"
-					placeholder="ex: 1234-5678"
-					bind:value={data.property.contact_phone}
-				/>
-			</fieldset>
+				<fieldset>
+					<legend>Building Style</legend>
+					<input
+						type="text"
+						name="building_style"
+						placeholder="ex: 2 Storey"
+						bind:value={data.property.building_style}
+					/>
+				</fieldset>
 
-			<fieldset>
-				<legend>Email</legend>
-				<input
-					type="email"
-					name="contact_email"
-					placeholder="ex: this@that.there"
-					bind:value={data.property.contact_email}
-				/>
-			</fieldset>
+				<fieldset>
+					<legend>Lot Size ㎡</legend>
+					<input
+						type="number"
+						name="lot_size"
+						placeholder="ex: 900"
+						bind:value={data.property.lot_size}
+					/>
+				</fieldset>
 
-			<fieldset>
-				<legend>Realtor</legend>
-				<input
-					type="text"
-					name="contact_realtor"
-					placeholder="ex: Re/Max or Jane Doe"
-					bind:value={data.property.contact_realtor}
-				/>
-			</fieldset>
-		</div>
-	</section>
+				<fieldset>
+					<legend>Building Size ㎡</legend>
+					<input
+						type="number"
+						name="building_size"
+						placeholder="ex: 810"
+						bind:value={data.property.building_size}
+					/>
+				</fieldset>
+			</div>
+		</section>
 
-	<!-- PROPERTY BASICS -->
-	<section class="section section_basics">
-		<div class="header">
-			<h3>Basics</h3>
-			<p>
-				These are initial values and usually first thing user looks for when
-				narrowing down their options.
-			</p>
-		</div>
+		<!-- PROPERTY DETAILS -->
+		<section class="section section_details">
+			<div class="header">
+				<h3>Details</h3>
+				<p>
+					Information important to the user and thus should be filled in as soon
+					as possible. Also used in filters.
+				</p>
+			</div>
 
-		<div class="inputs">
-			<fieldset>
-				<legend>Year built</legend>
-				<input
-					type="number"
-					name="year_built"
-					placeholder="ex: 2019"
-					min="1900"
-					max="2099"
-					step="1"
-					bind:value={data.property.year_built}
-				/>
-			</fieldset>
+			<div class="inputs">
+				<fieldset>
+					<legend>Bedrooms</legend>
+					<input
+						type="number"
+						name="beds"
+						placeholder="ex: 3"
+						bind:value={data.property.beds}
+					/>
+				</fieldset>
 
-			<fieldset>
-				<legend>Building Style</legend>
-				<input
-					type="text"
-					name="building_style"
-					placeholder="ex: 2 Storey"
-					bind:value={data.property.building_style}
-				/>
-			</fieldset>
+				<fieldset>
+					<legend>Bathrooms</legend>
+					<input
+						type="number"
+						name="baths"
+						placeholder="ex: 3"
+						bind:value={data.property.baths}
+					/>
+				</fieldset>
 
-			<fieldset>
-				<legend>Lot Size ㎡</legend>
-				<input
-					type="number"
-					name="lot_size"
-					placeholder="ex: 900"
-					bind:value={data.property.lot_size}
-				/>
-			</fieldset>
+				<fieldset>
+					<legend>Restrooms (half-baths)</legend>
+					<input
+						type="number"
+						name="half_baths"
+						placeholder="ex: 2"
+						bind:value={data.property.half_baths}
+					/>
+				</fieldset>
 
-			<fieldset>
-				<legend>Building Size ㎡</legend>
-				<input
-					type="number"
-					name="building_size"
-					placeholder="ex: 810"
-					bind:value={data.property.building_size}
-				/>
-			</fieldset>
-		</div>
-	</section>
+				<fieldset>
+					<legend>Rooms</legend>
+					<input
+						type="number"
+						name="rooms"
+						placeholder="ex: 6"
+						bind:value={data.property.rooms}
+					/>
+				</fieldset>
 
-	<!-- PROPERTY DETAILS -->
-	<section class="section section_details">
-		<div class="header">
-			<h3>Details</h3>
-			<p>
-				Information important to the user and thus should be filled in as soon
-				as possible. Also used in filters.
-			</p>
-		</div>
+				<fieldset>
+					<legend>Parking Spaces</legend>
+					<input
+						type="number"
+						name="parking_spaces"
+						placeholder="ex: 9"
+						bind:value={data.property.parking_spaces}
+					/>
+				</fieldset>
+			</div>
+		</section>
 
-		<div class="inputs">
-			<fieldset>
-				<legend>Bedrooms</legend>
-				<input
-					type="number"
-					name="beds"
-					placeholder="ex: 3"
-					bind:value={data.property.beds}
-				/>
-			</fieldset>
+		<!-- PROPERTY PRICING -->
+		<section class="section section_pricing">
+			<div class="header">
+				<h3>Pricing</h3>
+				<p>
+					Everything regarding money goes in here and is very important since
+					used in filters and relevent to user.
+				</p>
+			</div>
 
-			<fieldset>
-				<legend>Bathrooms</legend>
-				<input
-					type="number"
-					name="baths"
-					placeholder="ex: 3"
-					bind:value={data.property.baths}
-				/>
-			</fieldset>
+			<div class="inputs">
+				<fieldset>
+					<legend>Price $</legend>
+					<input
+						type="number"
+						name="price"
+						placeholder="ex: 630000"
+						bind:value={data.property.price}
+					/>
+				</fieldset>
 
-			<fieldset>
-				<legend>Restrooms (half-baths)</legend>
-				<input
-					type="number"
-					name="half_baths"
-					placeholder="ex: 2"
-					bind:value={data.property.half_baths}
-				/>
-			</fieldset>
+				<fieldset>
+					<legend>Rent ($/month)</legend>
+					<input
+						type="number"
+						name="rent"
+						placeholder="ex: 1800"
+						bind:value={data.property.rent}
+					/>
+				</fieldset>
 
-			<fieldset>
-				<legend>Rooms</legend>
-				<input
-					type="number"
-					name="rooms"
-					placeholder="ex: 6"
-					bind:value={data.property.rooms}
-				/>
-			</fieldset>
+				<fieldset>
+					<legend>Taxes ($/year)</legend>
+					<input
+						type="number"
+						name="taxes"
+						placeholder="ex: 1500"
+						bind:value={data.property.taxes}
+					/>
+				</fieldset>
 
-			<fieldset>
-				<legend>Parking Spaces</legend>
-				<input
-					type="number"
-					name="parking_spaces"
-					placeholder="ex: 9"
-					bind:value={data.property.parking_spaces}
-				/>
-			</fieldset>
-		</div>
-	</section>
+				<fieldset>
+					<legend>Fees (condo, asssociation) ($/month)</legend>
+					<input
+						type="number"
+						name="fees"
+						placeholder="ex: 120"
+						bind:value={data.property.fees}
+					/>
+				</fieldset>
+			</div>
+		</section>
 
-	<!-- PROPERTY PRICING -->
-	<section class="section section_pricing">
-		<div class="header">
-			<h3>Pricing</h3>
-			<p>
-				Everything regarding money goes in here and is very important since used
-				in filters and relevent to user.
-			</p>
-		</div>
+		<!-- PROPERTY FEATURES -->
+		<section class="section section_features">
+			<div class="header">
+				<h3>Features</h3>
+				<p>
+					Description, features, photos. Photos are important and good quality
+					should be provided.
+				</p>
+			</div>
 
-		<div class="inputs">
-			<fieldset>
-				<legend>Price $</legend>
-				<input
-					type="number"
-					name="price"
-					placeholder="ex: 630000"
-					bind:value={data.property.price}
-				/>
-			</fieldset>
-
-			<fieldset>
-				<legend>Rent ($/month)</legend>
-				<input
-					type="number"
-					name="rent"
-					placeholder="ex: 1800"
-					bind:value={data.property.rent}
-				/>
-			</fieldset>
-
-			<fieldset>
-				<legend>Taxes ($/year)</legend>
-				<input
-					type="number"
-					name="taxes"
-					placeholder="ex: 1500"
-					bind:value={data.property.taxes}
-				/>
-			</fieldset>
-
-			<fieldset>
-				<legend>Fees (condo, asssociation) ($/month)</legend>
-				<input
-					type="number"
-					name="fees"
-					placeholder="ex: 120"
-					bind:value={data.property.fees}
-				/>
-			</fieldset>
-		</div>
-	</section>
-
-	<!-- PROPERTY FEATURES -->
-	<section class="section section_features">
-		<div class="header">
-			<h3>Features</h3>
-			<p>
-				Description, features, photos. Photos are important and good quality
-				should be provided.
-			</p>
-		</div>
-
-		<div class="inputs">
-			<fieldset>
-				<legend>Features</legend>
-				<input
-					type="text"
-					placeholder="ex: BBQ"
-					on:keydown={(evt) => {
-						if (evt.key == "Enter") evt.preventDefault();
-					}}
-					use:enter={addFeature}
-				/>
-				<div class="feature-list">
-					{#each data.property.features || [] as feature, i}
-						<span class="feature">
-							<svg
-								class="close"
-								on:click={() => removeFeature(i)}
-								on:keydown
-								width="18px"
-								height="18px"
-								stroke-width="1.5"
-								viewBox="0 0 24 24"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg"
-								color="currentColor"
-								><path
-									d="M6.758 17.243L12.001 12m5.243-5.243L12 12m0 0L6.758 6.757M12.001 12l5.243 5.243"
-									stroke="currentColor"
+			<div class="inputs">
+				<fieldset>
+					<legend>Features</legend>
+					<input
+						type="text"
+						placeholder="ex: BBQ"
+						on:keydown={(evt) => {
+							if (evt.key == "Enter") evt.preventDefault();
+						}}
+						use:enter={addFeature}
+					/>
+					<div class="feature-list">
+						{#each data.property.features || [] as feature, i}
+							<span class="feature">
+								<svg
+									class="close"
+									on:click={() => removeFeature(i)}
+									on:keydown
+									width="18px"
+									height="18px"
 									stroke-width="1.5"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								/></svg
-							>
-							{feature}
-						</span>
-					{/each}
-				</div>
-			</fieldset>
+									viewBox="0 0 24 24"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+									color="currentColor"
+									><path
+										d="M6.758 17.243L12.001 12m5.243-5.243L12 12m0 0L6.758 6.757M12.001 12l5.243 5.243"
+										stroke="currentColor"
+										stroke-width="1.5"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/></svg
+								>
+								{feature}
+							</span>
+						{/each}
+					</div>
+				</fieldset>
 
-			<fieldset class="description">
-				<legend>Description</legend>
-				<textarea
-					name="description"
-					class="scroller"
-					rows="6"
-					placeholder="Description (max 9 sentences)"
-					bind:value={data.property.description}
-				/>
-			</fieldset>
+				<fieldset class="description">
+					<legend>Description</legend>
+					<textarea
+						name="description"
+						class="scroller"
+						rows="6"
+						placeholder="Description (max 9 sentences)"
+						bind:value={data.property.description}
+					/>
+				</fieldset>
 
-			<fieldset class="photos">
-				<legend>Photos</legend>
+				<fieldset class="photos">
+					<legend>Photos</legend>
 
-				<Uploader
-					bind:attachments={data.property.photos}
-					msl={data.property.msl}
-				/>
+					<Uploader
+						bind:attachments={data.property.photos}
+						msl={data.property.msl}
+					/>
 
-				<!-- <div class="photo-list">
+					<!-- <div class="photo-list">
 					{#each data.property.photos || [] as photo, i}
 						<div
 							class="photo"
@@ -554,75 +558,86 @@
 						</div>
 					{/each}
 				</div> -->
-			</fieldset>
-		</div>
-	</section>
+				</fieldset>
+			</div>
+		</section>
 
-	<!-- BUTTONS -->
-	<footer class="buttons-group">
-		{#if data.property.is_active && !isAdmin}
-			<Button formaction="?/remove" color="danger" {loading} disabled={loading}>
-				<svelte:fragment slot="icon">❌</svelte:fragment>
-				Remove
+		<!-- BUTTONS -->
+		<footer class="buttons-group">
+			{#if data.property.is_active && !isAdmin}
+				<Button
+					formaction="?/remove"
+					color="danger"
+					{loading}
+					disabled={loading}
+				>
+					<svelte:fragment slot="icon">❌</svelte:fragment>
+					Remove
+				</Button>
+			{/if}
+			{#if isAdmin}
+				<Button
+					formaction="?/delete"
+					color="danger"
+					{loading}
+					disabled={loading}
+				>
+					<svelte:fragment slot="icon">❌</svelte:fragment>
+					Delete
+				</Button>
+			{/if}
+
+			<!-- {#if isAdmin} -->
+			<Button
+				type="button"
+				disabled={loading}
+				on:click={() => {
+					goto(`/${data.property.id}/print`);
+				}}
+			>
+				<svelte:fragment slot="icon">👁‍🗨</svelte:fragment>
+				Print
 			</Button>
-		{/if}
-		{#if isAdmin}
-			<Button formaction="?/delete" color="danger" {loading} disabled={loading}>
-				<svelte:fragment slot="icon">❌</svelte:fragment>
-				Delete
-			</Button>
-		{/if}
+			<!-- {/if} -->
 
-		<!-- {#if isAdmin} -->
-		<Button
-			type="button"
-			disabled={loading}
-			on:click={() => {
-				goto(`/${data.property.id}/print`);
-			}}
-		>
-			<svelte:fragment slot="icon">👁‍🗨</svelte:fragment>
-			Print
-		</Button>
-		<!-- {/if} -->
-
-		<input type="hidden" hidden name="id" value={data.property.id} />
-		<input type="hidden" hidden name="msl" value={data.property.msl} />
-		<input
-			type="hidden"
-			hidden
-			name="location"
-			value={JSON.stringify(data.property.location)}
-		/>
-		<input
-			type="hidden"
-			hidden
-			name="property_for"
-			value={JSON.stringify(data.property.property_for)}
-		/>
-		<input
-			type="hidden"
-			hidden
-			name="features"
-			value={JSON.stringify(data.property.features)}
-		/>
-		<!-- <Button type="button" disabled={loading || !formIsValid}
+			<input type="hidden" hidden name="id" value={data.property.id} />
+			<input type="hidden" hidden name="msl" value={data.property.msl} />
+			<input
+				type="hidden"
+				hidden
+				name="location"
+				value={JSON.stringify(data.property.location)}
+			/>
+			<input
+				type="hidden"
+				hidden
+				name="property_for"
+				value={JSON.stringify(data.property.property_for)}
+			/>
+			<input
+				type="hidden"
+				hidden
+				name="features"
+				value={JSON.stringify(data.property.features)}
+			/>
+			<!-- <Button type="button" disabled={loading || !formIsValid}
 				>Submit Changes
 			</Button> -->
-		<Button {loading} disabled={loading}>
-			<svelte:fragment slot="icon">💾</svelte:fragment>
-			Submit Changes
-		</Button>
-	</footer>
+			<Button {loading} disabled={loading}>
+				<svelte:fragment slot="icon">💾</svelte:fragment>
+				Submit Changes
+			</Button>
+		</footer>
 
-	<!-- NOTIFICATIONS -->
-	{#if message}
-		<Notify type="success">{message}</Notify>
-	{/if}
-	{#if error}
-		<Notify type="danger">{error}</Notify>
-	{/if}
-</form>
+		<!-- NOTIFICATIONS -->
+		{#if message}
+			<Notify type="success">{message}</Notify>
+		{/if}
+		{#if error}
+			<Notify type="danger">{error}</Notify>
+		{/if}
+	</form>
+{/if}
 
 <!-- CONFIRMATION MODAL -->
 

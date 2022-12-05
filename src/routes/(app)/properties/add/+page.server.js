@@ -12,9 +12,9 @@ export async function load(event) {
 
 	const { session, supabaseClient } = await getSupabase(event);
 
-	if (!session) {
-		throw redirect(303, '/login');
-	}
+	// if (!session) {
+	// 	throw redirect(303, '/login');
+	// }
 
 
 	// if (session?.user.app_metadata.claims_admin) {
@@ -22,7 +22,9 @@ export async function load(event) {
 	// }
 
 
-	return {};
+	return {
+		logged_in: session ? true : false,
+	};
 };
 
 export const actions = {

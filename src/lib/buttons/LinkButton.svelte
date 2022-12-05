@@ -48,6 +48,7 @@
 		display: inline-flex;
 		justify-content: center;
 		align-items: center;
+		white-space: nowrap;
 	}
 	button:hover,
 	a:hover {

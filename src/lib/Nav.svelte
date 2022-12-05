@@ -1,4 +1,5 @@
 <script>
+	import { goto, invalidateAll } from "$app/navigation";
 	import { page } from "$app/stores";
 	import { supabase } from "$lib/db";
 	import { LinkButton } from "$lib/buttons";
@@ -11,6 +12,8 @@
 	async function handleSignOut() {
 		localStorage.clear();
 		await supabase.auth.signOut();
+		// invalidateAll();
+		goto("/");
 	}
 </script>
 
@@ -28,7 +31,7 @@
 		<li><LinkButton href="/about">About</LinkButton></li>
 	{/if}
 	{#if $page.data.session}
-		<li><LinkButton on:click={handleSignOut}>Sign-out</LinkButton></li>
+		<li><LinkButton on:click={handleSignOut}>Logout</LinkButton></li>
 	{/if}
 </nav>
 
