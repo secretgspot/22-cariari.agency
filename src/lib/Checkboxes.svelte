@@ -2,7 +2,7 @@
 	export let selected = [];
 	export let disabled = false;
 
-	let options = ["Sale", "Rent", "Investment"];
+	export let options = ["Sale", "Rent", "Investment"];
 </script>
 
 {#each options as option, indx}

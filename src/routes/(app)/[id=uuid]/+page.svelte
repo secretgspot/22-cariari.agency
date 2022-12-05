@@ -228,7 +228,7 @@
 			{/if}
 		</div>
 
-		<div class="ad-wrapper">
+		<div class="commercial-wrapper">
 			<Ad width="320" height="100">
 				<a href="//pintarcariari.casa" target="_blank" rel="noreferrer">
 					<img src="/ads/pintarcariari-300x100.jpg" alt="Pintar Cariari" />
@@ -404,7 +404,7 @@
 		text-align: justify;
 	}
 
-	.side .ad-wrapper {
+	.side .commercial-wrapper {
 		display: flex;
 		justify-content: center;
 		flex: 1;

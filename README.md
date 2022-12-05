@@ -49,6 +49,6 @@ Built with:
 - [ ] map acting strange when layout changes
 - [ ] sometimes from edit clicking on the property doesn't work
 - [ ] signout in nav (issue with the sign-out and getting stuck on loader)
-- [ ] look into OTP <https://github.com/supabase/supabase/discussions/4837>
+- [x] look into OTP <https://github.com/supabase/supabase/discussions/4837>
 
 ## Lessons

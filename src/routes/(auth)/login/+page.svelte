@@ -1,5 +1,6 @@
 <script>
 	import { page } from "$app/stores";
+	import { goto } from "$app/navigation";
 	import { supabase } from "$lib/db.js";
 	import Text from "$lib/Text.svelte";
 	import { Button } from "$lib/buttons";
@@ -14,13 +15,37 @@
 		message = "";
 		loading = true;
 
-		const { error: err } = await supabase.auth.signInWithOtp({ email });
+		const { error: err } = await supabase.auth.signInWithOtp({
+			email,
+			sendOtp: true,
+		});
+		// const { error: err } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo:  "https://example.com/login" } });
 
 		if (err) error = err.message;
-		else message = "Check your email for magic link!";
+		else {
+			message = "Check your email for magic link!";
+			goto("/");
+		}
 
 		loading = false;
 	}
+
+	// async function verify() {
+	// 	error = "";
+	// 	message = "";
+	// 	loading = true;
+
+	// 	const { session, error: verifyError } = await supabase.auth.verifyOTP({
+	// 		email,
+	// 		token,
+	// 		type: "magiclink",
+	// 	});
+
+	// 	if (verifyError) error = verifyError.message;
+	// 	else message = "Verified!";
+
+	// 	loading = false;
+	// }
 </script>
 
 <form on:submit|preventDefault={submit}>
@@ -41,6 +66,7 @@
 	<Button shadow size="block" {loading} disabled={loading}
 		>Request a magic link</Button
 	>
+
 	{#if message}
 		<Text type="success">{message}</Text>
 	{/if}

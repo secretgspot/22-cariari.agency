@@ -39,7 +39,7 @@ supabase.auth.onAuthStateChange(async (event, session) => {
 	if (event == 'SIGNED_OUT') {
 		console.log('SIGNED_OUT 💩💩💩');
 		userStore.set({});
-		// invalidateAll();
+		invalidateAll();
 		goto('/');
 	};
 	if (event == 'TOKEN_REFRESHED') console.log('TOKEN_REFRESHED');

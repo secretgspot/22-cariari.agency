@@ -20,7 +20,7 @@ export async function load(event) {
 	}
 
 	return {
-		loading: true,
+		// loading: true,
 		properties: getProperties(),
 	};
 };

@@ -11,6 +11,7 @@
 	import MapPicker from "$lib/map/MapPicker.svelte";
 	import Uploader from "$lib/Uploader.svelte";
 	import Checkboxes from "$lib/Checkboxes.svelte";
+	import Notify from "$lib/Notify.svelte";
 	import { confetti } from "@neoconfetti/svelte";
 	import { pad } from "$lib/utils/helpers.js";
 	import JsonDump from "$lib/JSONDump.svelte";
@@ -23,7 +24,6 @@
 		error = "",
 		message = "",
 		isAdmin = true,
-		won = false,
 		gps;
 
 	async function getMsl() {
@@ -136,7 +136,6 @@
 		// 'cancel()' will prevent the submission
 
 		// ALL THIS RUNS BEFORE SUBMISSION TO SERVER
-		won = false;
 		loading = true;
 		message = "";
 		error = "";
@@ -147,7 +146,8 @@
 				// reset form
 				// clearStorage();
 				// form.reset();
-				won = true;
+				message = result.data.message;
+				await applyAction(result);
 			}
 
 			if (result.type === "invalid") {
@@ -573,18 +573,18 @@
 			</Button>
 		{/if}
 
-		{#if isAdmin}
-			<Button
-				type="button"
-				disabled={loading}
-				on:click={() => {
-					goto(`/${data.property.id}/print`);
-				}}
-			>
-				<svelte:fragment slot="icon">👁‍🗨</svelte:fragment>
-				Print
-			</Button>
-		{/if}
+		<!-- {#if isAdmin} -->
+		<Button
+			type="button"
+			disabled={loading}
+			on:click={() => {
+				goto(`/${data.property.id}/print`);
+			}}
+		>
+			<svelte:fragment slot="icon">👁‍🗨</svelte:fragment>
+			Print
+		</Button>
+		<!-- {/if} -->
 
 		<input type="hidden" hidden name="id" value={data.property.id} />
 		<input type="hidden" hidden name="msl" value={data.property.msl} />
@@ -614,20 +614,15 @@
 			Submit Changes
 		</Button>
 	</footer>
-</form>
 
-<!-- CONFETTI -->
-{#if won}
-	<div
-		style="position: fixed; left: 50%; top: 0; z-index:10"
-		use:confetti={{
-			force: 0.6,
-			stageWidth: window.innerWidth,
-			stageHeight: window.innerHeight,
-			colors: ["#FFF8DC", "#FFFACD", "#F0E68C", "#FFD700"],
-		}}
-	/>
-{/if}
+	<!-- NOTIFICATIONS -->
+	{#if message}
+		<Notify type="success">{message}</Notify>
+	{/if}
+	{#if error}
+		<Notify type="danger">{error}</Notify>
+	{/if}
+</form>
 
 <!-- CONFIRMATION MODAL -->
 
@@ -646,8 +641,7 @@
 	>
 </Modal> -->
 
-<JsonDump name="data" {data} />
-
+<!-- <JsonDump name="data" {data} /> -->
 <style>
 	.edit-property {
 		display: grid;

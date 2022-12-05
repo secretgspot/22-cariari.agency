@@ -67,13 +67,13 @@
 
 	<strong class="title">
 		{#if type == "tip"}
-			Para tu información
+			Notice
 		{:else if type == "danger"}
-			Ha ocurrido un error
+			An Error
 		{:else if type == "warn"}
-			Una advertencia
+			Warning
 		{:else if type == "success"}
-			¡Éxito!
+			Success
 		{/if}
 	</strong>
 

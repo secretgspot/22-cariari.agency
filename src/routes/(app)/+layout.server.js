@@ -24,7 +24,7 @@ export async function load(event) {
 	// const user = await session.user;
 
 	return {
-		loading: false,
+		// loading: false,
 		// user_data: {
 		// 	user_id: user?.id,
 		// 	admin: Boolean(user?.app_metadata.claims_admin),

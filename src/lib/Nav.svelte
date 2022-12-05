@@ -4,6 +4,7 @@
 	import { LinkButton } from "$lib/buttons";
 
 	export let sticky = false;
+	export let basic = false;
 
 	$: url = $page.url.pathname;
 
@@ -13,7 +14,7 @@
 	}
 </script>
 
-<nav class:sticky>
+<nav class:sticky class:basic>
 	{#if url != "/"}
 		<li><LinkButton href="/">Map</LinkButton></li>
 	{/if}
@@ -48,5 +49,8 @@
 	.sticky {
 		position: sticky;
 		top: 0;
+	}
+	.basic {
+		position: static;
 	}
 </style>

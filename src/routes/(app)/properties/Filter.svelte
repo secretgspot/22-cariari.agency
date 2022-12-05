@@ -141,7 +141,7 @@
 	.features,
 	.others {
 		box-shadow: var(--shadow-small);
-		padding: var(--padding-medium);
+		padding: 0 var(--padding-medium) var(--padding-medium);
 	}
 
 	.price_range .range:first-child {

@@ -45,7 +45,6 @@
 
 {#if !$navigating}
 	<Logo type="regular" color="bw" fixed="fixed" on:click={() => goto("/")} />
-	<Nav />
 {/if}
 
 <main>
@@ -99,6 +98,7 @@
 				<!-- {#if isAdmin}
 				<Button href="/property">Add new</Button>
 				{/if} -->
+				<Nav basic />
 			</div>
 
 			<Filter bind:filter />
@@ -200,8 +200,14 @@
 		justify-items: center;
 		/* margin: 0 var(--padding-small); */
 	}
+	@media (min-width: 720px) {
+		.filters-menu {
+			padding: var(--padding-small);
+		}
+	}
 	.filters-menu h3 {
 		white-space: nowrap;
+		margin: 0;
 	}
 	.view_type {
 		display: none;

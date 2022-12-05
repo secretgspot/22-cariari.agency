@@ -113,6 +113,9 @@
 				"property-image property-footer";
 			margin: 1rem;
 		}
+		.property:hover {
+			outline: 6px solid hsl(var(--a) / 0.1);
+		}
 	}
 	.deactivated::after {
 		content: "Delisted";
@@ -211,5 +214,9 @@
 		position: absolute;
 		top: 0;
 		right: 0;
+	}
+	.property-footer .buttons :global(button) {
+		border-radius: 0;
+		padding: var(--padding-extra-small);
 	}
 </style>

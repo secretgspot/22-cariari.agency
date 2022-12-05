@@ -116,7 +116,7 @@ export const actions = {
 
 		return {
 			success: true,
-			message: `Property ${resData} updated successfully!`
+			message: `Property ${resData.msl} updated successfully!`
 		}
 
 	},
@@ -195,7 +195,7 @@ export const actions = {
 
 		return {
 			success: true,
-			message: `Property ${resData} has been delisted!`
+			message: `Property ${resData.msl} has been delisted!`
 		}
 	},
 }

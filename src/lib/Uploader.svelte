@@ -152,7 +152,7 @@
 	};
 </script>
 
-<JSONDump name="attachments" data={attachments} />
+<!-- <JSONDump name="attachments" data={attachments} /> -->
 <!-- <button on:click|preventDefault={emptyBucket}>Clear Bucket</button> -->
 
 <div class="drop-container">
