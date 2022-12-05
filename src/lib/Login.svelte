@@ -4,6 +4,7 @@
 	import { supabase } from "$lib/db.js";
 	import Text from "$lib/Text.svelte";
 	import { Button } from "$lib/buttons";
+	import { isEmpty } from "$lib/utils/helpers.js";
 
 	let error = "",
 		message = "",
@@ -16,6 +17,12 @@
 		error = "";
 		message = "";
 		loading = true;
+
+		if (isEmpty(email)) {
+			error = "Email must not be empty";
+			loading = false;
+			return false;
+		}
 
 		const { error: err } = await supabase.auth.signInWithOtp({
 			email,
@@ -45,8 +52,11 @@
 				type: "magiclink",
 			});
 
-		if (verifyError) error = verifyError.message;
-		else message = "Verified!";
+		if (verifyError) {
+			view = "magic";
+			token = "";
+			error = verifyError.message;
+		} else message = "Verified!";
 
 		loading = false;
 	}
@@ -65,6 +75,7 @@
 			name="email"
 			bind:value={email}
 			placeholder="Your email"
+			required
 		/>
 		<Button shadow size="block" {loading} disabled={loading} on:click={submit}
 			>Request a magic link</Button
@@ -78,6 +89,7 @@
 			name="token"
 			bind:value={token}
 			placeholder="ex:123456"
+			required
 		/>
 		<Button shadow size="block" {loading} disabled={loading} on:click={verify}
 			>Verify login token</Button
