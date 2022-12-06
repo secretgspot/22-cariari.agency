@@ -47,6 +47,8 @@ Built with:
 - [ ] present sign-up with magic link only when the user completes the form
 - [ ] map acting strange when layout changes
 - [ ] sometimes from edit clicking on the property doesn't work
-- [ ] vercel redeploy
+- [x] vercel redeploy
+- [ ] way for user to login for editing
+- [ ] when property is deleted it should redirect to properties
 
 ## Lessons

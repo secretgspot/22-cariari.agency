@@ -152,9 +152,11 @@ export const actions = {
 				message: `Unable to delete property, ${resErr.message}`,
 				property,
 			});
+		} else {
+			throw redirect(302, '/properties');
 		}
-		console.log('RESDATA DELETE', resData);
-		if (resData) throw redirect(302, '/properties');
+		// console.log('RESDATA DELETE', resData);
+		// if (resData) throw redirect(302, '/properties');
 
 		// return {
 		// 	success: true,
