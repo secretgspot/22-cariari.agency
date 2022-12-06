@@ -209,11 +209,15 @@
 	.filters-menu h3 {
 		white-space: nowrap;
 		margin: 0;
+		justify-self: end;
 	}
 	.view_type {
 		display: none;
 	}
 	@media (min-width: 720px) {
+		.filters-menu h3 {
+			justify-self: auto;
+		}
 		.view_type {
 			display: flex;
 		}

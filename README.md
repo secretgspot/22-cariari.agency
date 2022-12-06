@@ -48,5 +48,6 @@ Built with:
 - [ ] map acting strange when layout changes
 - [ ] sometimes from edit clicking on the property doesn't work
 - [x] signout in nav (issue with the sign-out and getting stuck on loader)
+- [x] mobile first nav
 
 ## Lessons
