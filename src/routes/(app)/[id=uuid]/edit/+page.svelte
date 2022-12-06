@@ -132,7 +132,6 @@
 	<form
 		class="edit-property"
 		method="POST"
-		action="?/edit"
 		use:enhance={({ form, data, action, cancel }) => {
 			// 'form' is the '<form>' element
 			// 'data' is it's 'FormData' object
@@ -146,6 +145,7 @@
 
 			// prevent default callback from resetting the form
 			return async ({ result, update }) => {
+				console.log("RESULT TYPE:", result.type);
 				if (result.type === "success") {
 					// reset form
 					// clearStorage();
@@ -159,7 +159,7 @@
 					await applyAction(result);
 				}
 				loading = false;
-				// update({ reset: false });
+				update({ reset: false });
 				// update();
 			};
 		}}
@@ -320,9 +320,6 @@
 						type="number"
 						name="year_built"
 						placeholder="ex: 2019"
-						min="1900"
-						max="2099"
-						step="1"
 						bind:value={data.property.year_built}
 					/>
 				</fieldset>
@@ -623,7 +620,7 @@
 			<!-- <Button type="button" disabled={loading || !formIsValid}
 				>Submit Changes
 			</Button> -->
-			<Button {loading} disabled={loading}>
+			<Button formaction="?/edit" {loading} disabled={loading}>
 				<svelte:fragment slot="icon">💾</svelte:fragment>
 				Submit Changes
 			</Button>

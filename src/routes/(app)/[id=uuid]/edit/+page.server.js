@@ -138,7 +138,7 @@ export const actions = {
 		const property_id = formData.get('id');
 
 		// push it to the server
-		const { data: resData, error: resErr } = await supabaseClient.from('properties').delete().eq('id', property_id).select().single();
+		const { error: resErr } = await supabaseClient.from('properties').delete().eq('id', property_id);
 		if (resErr) {
 			if (resErr instanceof AuthApiError && resErr.status === 400) {
 				return invalid(400, {
@@ -153,7 +153,7 @@ export const actions = {
 				property,
 			});
 		} else {
-			throw redirect(302, '/properties');
+			throw redirect(303, '/properties');
 		}
 		// console.log('RESDATA DELETE', resData);
 		// if (resData) throw redirect(302, '/properties');

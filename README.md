@@ -47,8 +47,10 @@ Built with:
 - [ ] present sign-up with magic link only when the user completes the form
 - [ ] map acting strange when layout changes
 - [ ] sometimes from edit clicking on the property doesn't work
-- [x] vercel redeploy
-- [ ] way for user to login for editing
-- [ ] when property is deleted it should redirect to properties
+- [ ] a way for a user to log in for editing
+- [x] when a property is deleted it should redirect to properties
+- [x] should not check for valid forms when deleting
+- [ ] nav glitches and presents itself when shouldn't
+- [ ] when a property is deleted it should trigger delete of the storage folder for that property
 
 ## Lessons

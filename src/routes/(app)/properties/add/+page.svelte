@@ -52,6 +52,9 @@
 		if (mslData) {
 			$property.msl = `CR-${pad(Number(mslData.msl.substring(3)) + 1, 3)}`;
 			console.log("LAST MSL DIGIT", mslData.msl);
+		} else {
+			console.log("LAST MSL DIGIT NOT FOUND");
+			$property.msl = "CR-001";
 		}
 	}
 
@@ -179,7 +182,7 @@
 						type="text"
 						placeholder="ex: CR-001"
 						bind:value={$property.msl}
-						disabled
+						disabled={!isAdmin}
 					/>
 					<!-- {#if !property.msl}
 					<Button type="button" size="block" on:click={getMsl}>Set</Button>
