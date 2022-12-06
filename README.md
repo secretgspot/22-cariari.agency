@@ -47,7 +47,6 @@ Built with:
 - [ ] present sign-up with magic link only when the user completes the form
 - [ ] map acting strange when layout changes
 - [ ] sometimes from edit clicking on the property doesn't work
-- [x] signout in nav (issue with the sign-out and getting stuck on loader)
-- [x] mobile first nav
+- [ ] vercel redeploy
 
 ## Lessons
