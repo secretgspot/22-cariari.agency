@@ -48,9 +48,9 @@ Built with:
 - [ ] map acting strange when layout changes
 - [ ] sometimes from edit clicking on the property doesn't work
 - [ ] a way for a user to log in for editing
-- [x] when a property is deleted it should redirect to properties
-- [x] should not check for valid forms when deleting
 - [ ] nav glitches and presents itself when shouldn't
-- [ ] when a property is deleted it should trigger delete of the storage folder for that property
+- [x] when a property is deleted it should trigger delete of the storage folder for that property
+- [ ] when GPS is entered manually it should update on the map
+- [ ] should the nav be sticky on edit/add?
 
 ## Lessons

@@ -144,13 +144,11 @@ export const actions = {
 				return invalid(400, {
 					error: true,
 					message: `Unable to delete property, ${resErr.message}`,
-					property,
 				});
 			}
 			return invalid(500, {
 				error: true,
 				message: `Unable to delete property, ${resErr.message}`,
-				property,
 			});
 		} else {
 			throw redirect(303, '/properties');
