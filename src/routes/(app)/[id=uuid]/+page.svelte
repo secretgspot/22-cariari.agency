@@ -44,8 +44,8 @@
 
 <article>
 	<!-- IMAGE PANE -->
-	<div class="image">
-		<Splide
+	<div class="photos scroller">
+		<!-- <Splide
 			options={{
 				type: "loop",
 				drag: "free",
@@ -54,30 +54,33 @@
 				height: "100%",
 			}}
 			aria-label="{data.property.msl} photos"
-		>
+		> -->
+		<div class="wrap">
 			{#if data.property.photos}
 				{#each data.property.photos as photo}
-					<SplideSlide>
-						<img
-							class="slide-image"
-							src={photo.file_url}
-							alt="{data.property.msl} property photo"
-							loading="eager"
-							intrinsicsize="1920x1080"
-						/>
-					</SplideSlide>
+					<!-- <SplideSlide> -->
+					<div class="slide" style="background-image: url({photo.file_url});" />
+					<!-- <img
+					class="slide-image"
+					src={photo.file_url}
+					alt="{data.property.msl} property photo"
+					loading="eager"
+					intrinsicsize="1920x1080"
+				/> -->
+					<!-- </SplideSlide> -->
 				{/each}
 			{:else}
-				<SplideSlide>
-					<img
-						class="slide-image"
-						src="/placeholder/1080x810.png"
-						alt="property"
-						loading="eager"
-					/>
-				</SplideSlide>
+				<!-- <SplideSlide> -->
+				<img
+					class="slide-image"
+					src="/placeholder/1080x810.png"
+					alt="property"
+					loading="eager"
+				/>
+				<!-- </SplideSlide> -->
 			{/if}
-		</Splide>
+		</div>
+		<!-- </Splide> -->
 		<!-- <Carousel>
 			{#if data.property.photos}
 				{#each data.property.photos as photo}
@@ -90,165 +93,156 @@
 	</div>
 
 	<!-- SIDE PANE -->
-	<div class="side scroller">
-		<Button size="icon" class="close" on:click={() => goto(previousPage)}>
-			<svelte:fragment slot="icon"
-				><svg
-					width="24px"
-					height="24px"
-					stroke-width="1.5"
-					viewBox="0 0 24 24"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-					color="currentColor"
-					><path
-						d="M10.25 4.75l-3.5 3.5 3.5 3.5"
-						stroke="currentColor"
+	<div class="side">
+		<div class="side-wrapper scroller">
+			<Button size="icon" class="close" on:click={() => goto(previousPage)}>
+				<svelte:fragment slot="icon"
+					><svg
+						width="24px"
+						height="24px"
 						stroke-width="1.5"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					/><path
-						d="M6.75 8.25h6a4 4 0 014 4v7"
-						stroke="currentColor"
-						stroke-width="1.5"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					/></svg
-				></svelte:fragment
-			>
-		</Button>
-		<!-- {#if btn}
-		<Button type="button" mode="close needy" on:click="{() => dispatch('close')}">
-			<Icon type="close" size="18" />
-		</Button>
-		{:else}
-		<Button type="button" mode="close needy" on:click="{() => goto('/properties')}">
-			<Icon type="return" size="18" />
-		</Button>
-		{/if} -->
+						viewBox="0 0 24 24"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+						color="currentColor"
+						><path
+							d="M10.25 4.75l-3.5 3.5 3.5 3.5"
+							stroke="currentColor"
+							stroke-width="1.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/><path
+							d="M6.75 8.25h6a4 4 0 014 4v7"
+							stroke="currentColor"
+							stroke-width="1.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/></svg
+					></svelte:fragment
+				>
+			</Button>
 
-		{#if !data.property.is_active}
-			<div class="delisted">NOT LISTED</div>
-		{/if}
+			{#if !data.property.is_active}
+				<div class="delisted">NOT LISTED</div>
+			{/if}
 
-		<div class="badge-group">
-			{#if data.property.year_built}
-				<Badge
-					type="text"
-					label="built"
-					value="{new Date(data.property.year_built).getFullYear()} &bull; {ago(
-						new Date(data.property.year_built)
-					)}"
-				/>
-			{/if}
-			{#if data.property.building_style}
-				<Badge type="text" label="style" value={data.property.building_style} />
-			{/if}
-		</div>
-
-		<div class="price-group">
-			{#if data.property.price > 0}
-				<Badge
-					type="text"
-					label="price"
-					value={formatter.format(data.property.price)}
-				/>
-			{/if}
-			{#if data.property.rent > 0}
-				<Badge
-					type="text"
-					label="rent"
-					value={formatter.format(data.property.rent)}
-				/>
-			{/if}
-			{#if data.property.taxes > 0}
-				<Badge
-					type="text"
-					label="taxes"
-					value={formatter.format(data.property.taxes)}
-				/>
-			{/if}
-			{#if data.property.fees > 0}
-				<Badge
-					type="text"
-					label="condo fees"
-					value={formatter.format(data.property.fees)}
-				/>
-			{/if}
-		</div>
-
-		{#if data.property.location && data.property.location.lat && data.property.location.lng}
-			<div class="map-group">
-				<!-- <StaticMap
-					lat={data.property.location.lat}
-					lon={data.property.location.lng}
-					zoom="15"
-					marker="https://i.imgur.com/gA01omN.png"
-				/> -->
-				<MapStatic position={data.property.location} />
+			<div class="badge-group">
+				{#if data.property.year_built}
+					<Badge
+						type="text"
+						label="built"
+						value="{new Date(
+							data.property.year_built
+						).getFullYear()} &bull; {ago(new Date(data.property.year_built))}"
+					/>
+				{/if}
+				{#if data.property.building_style}
+					<Badge
+						type="text"
+						label="style"
+						value={data.property.building_style}
+					/>
+				{/if}
 			</div>
-		{/if}
 
-		<div class="badge-group">
-			{#if data.property.rooms > 0}
-				<Badge type="icon" label="rooms" value={data.property.rooms} />
-			{/if}
-			{#if data.property.beds > 0}
-				<Badge type="icon" label="beds" value={data.property.beds} />
-			{/if}
-			{#if data.property.baths > 0}
-				<Badge type="icon" label="baths" value={data.property.baths} />
-			{/if}
-			{#if data.property.half_baths > 0}
-				<Badge
-					type="icon"
-					label="half baths"
-					value={data.property.half_baths}
-				/>
-			{/if}
-			{#if data.property.parking_spaces > 0}
-				<Badge
-					type="icon"
-					label="parkings"
-					value={data.property.parking_spaces}
-				/>
-			{/if}
-		</div>
-
-		<div class="badge-group">
-			{#if data.property.building_size > 0}
-				<Badge
-					type="text"
-					label="building"
-					value="{data.property.building_size}㎡"
-				/>
-			{/if}
-			{#if data.property.lot_size > 0}
-				<Badge type="text" label="lot" value="{data.property.lot_size}㎡" />
-			{/if}
-		</div>
-
-		<div class="commercial-wrapper">
-			<Ad width="320" height="100">
-				<a href="//pintarcariari.casa" target="_blank" rel="noreferrer">
-					<img src="/ads/pintarcariari-300x100.jpg" alt="Pintar Cariari" />
-				</a>
-			</Ad>
-		</div>
-
-		{#if data.property.description}
-			<div class="description scroller">
-				{data.property.description}
+			<div class="price-group">
+				{#if data.property.price > 0}
+					<Badge
+						type="text"
+						label="price"
+						value={formatter.format(data.property.price)}
+					/>
+				{/if}
+				{#if data.property.rent > 0}
+					<Badge
+						type="text"
+						label="rent"
+						value={formatter.format(data.property.rent)}
+					/>
+				{/if}
+				{#if data.property.taxes > 0}
+					<Badge
+						type="text"
+						label="taxes"
+						value={formatter.format(data.property.taxes)}
+					/>
+				{/if}
+				{#if data.property.fees > 0}
+					<Badge
+						type="text"
+						label="condo fees"
+						value={formatter.format(data.property.fees)}
+					/>
+				{/if}
 			</div>
-		{/if}
 
-		{#if data.property.features}
-			<div class="features">
-				{#each data.property.features as feature}
-					<div class="feature">{feature}</div>
-				{/each}
+			{#if data.property.location && data.property.location.lat && data.property.location.lng}
+				<div class="map-group">
+					<MapStatic position={data.property.location} />
+				</div>
+			{/if}
+
+			<div class="badge-group">
+				{#if data.property.rooms > 0}
+					<Badge type="icon" label="rooms" value={data.property.rooms} />
+				{/if}
+				{#if data.property.beds > 0}
+					<Badge type="icon" label="beds" value={data.property.beds} />
+				{/if}
+				{#if data.property.baths > 0}
+					<Badge type="icon" label="baths" value={data.property.baths} />
+				{/if}
+				{#if data.property.half_baths > 0}
+					<Badge
+						type="icon"
+						label="half baths"
+						value={data.property.half_baths}
+					/>
+				{/if}
+				{#if data.property.parking_spaces > 0}
+					<Badge
+						type="icon"
+						label="parkings"
+						value={data.property.parking_spaces}
+					/>
+				{/if}
 			</div>
-		{/if}
+
+			<div class="badge-group">
+				{#if data.property.building_size > 0}
+					<Badge
+						type="text"
+						label="building"
+						value="{data.property.building_size}㎡"
+					/>
+				{/if}
+				{#if data.property.lot_size > 0}
+					<Badge type="text" label="lot" value="{data.property.lot_size}㎡" />
+				{/if}
+			</div>
+
+			<div class="commercial-wrapper">
+				<Ad width="320" height="100">
+					<a href="//pintarcariari.casa" target="_blank" rel="noreferrer">
+						<img src="/ads/pintarcariari-300x100.jpg" alt="Pintar Cariari" />
+					</a>
+				</Ad>
+			</div>
+
+			{#if data.property.description}
+				<div class="description scroller">
+					{data.property.description}
+				</div>
+			{/if}
+
+			{#if data.property.features}
+				<div class="features">
+					{#each data.property.features as feature}
+						<div class="feature">{feature}</div>
+					{/each}
+				</div>
+			{/if}
+		</div>
 	</div>
 
 	<!-- BASE PANE -->
@@ -345,12 +339,42 @@
 		z-index: 3;
 	}
 
-	.image {
+	.photos {
 		grid-area: main;
-		width: 100vw;
-		overflow: hidden;
-		height: min-content;
-		/* height: max-content; */
+		display: grid;
+		grid-template-columns: inherit;
+		padding-block: var(--padding-extra-small);
+		overflow-x: scroll;
+		overscroll-behavior-x: contain;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+	}
+	/* .photos:before {
+		content: "Loading..";
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	} */
+	.photos .wrap {
+		grid-column: 1;
+		display: flex;
+		gap: var(--gap-extra-small);
+	}
+	.photos .wrap::after {
+		content: "";
+		padding-inline-end: calc(var(--gap-small) / 2);
+	}
+	.slide {
+		flex: 1 0 auto;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		scroll-snap-align: center;
+		inline-size: 100%;
+		/* aspect-ratio: 16 / 1; */
+		/* border-radius: var(--border-radius); */
+		background-size: cover;
+		background-position: center center;
 	}
 
 	.slide-image {
@@ -372,6 +396,12 @@
 		/* overflow-y: auto; */
 		/* background: lavender; */
 	}
+	.side .side-wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		padding: var(--padding-small);
+	}
 	.side .map-group,
 	.side .badge-group,
 	.side .price-group {
@@ -383,7 +413,7 @@
 	}
 
 	.side .features {
-		margin: var(--padding-medium) 0;
+		padding: var(--padding-medium);
 		text-align: center;
 		width: 100%;
 	}
@@ -458,7 +488,7 @@
 	@media (min-width: 1024px) {
 		article {
 			grid-template-columns: 60vw 40vw;
-			grid-template-rows: minmax(min-content, auto) minmax(min-content, auto);
+			grid-template-rows: minmax(min-content, 60vh) minmax(min-content, auto);
 			/* grid-template-rows: minmax(min-content, 30vh) minmax(max-content, 70vh); */
 			grid-template-areas:
 				"main aside"
@@ -469,11 +499,10 @@
 			position: fixed;
 		}
 		.side {
-			overflow-y: auto;
+			max-height: 100vh;
 		}
-		.image {
-			width: auto;
-			/* height: 100%; */
+		.side-wrapper {
+			overflow-y: auto;
 		}
 		.base {
 			grid-template-columns: repeat(2, minmax(min-content, auto));
@@ -482,7 +511,7 @@
 		}
 	}
 	@media (prefers-color-scheme: dark) {
-		.image {
+		.photos {
 			filter: brightness(var(--brightness));
 		}
 	}

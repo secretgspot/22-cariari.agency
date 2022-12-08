@@ -188,18 +188,19 @@ body {
 /* .scroller::scrollbar, */
 .scroller::-webkit-scrollbar {
 	width: 6px;
+	height: 9px;
 }
 
 /* .scroller::scrollbar-track, */
 .scroller::-webkit-scrollbar-track {
-	border-radius: 3px;
+	border-radius: var(--border-radius);
 	background: var(--primary);
 }
 
 /* .scroller::scrollbar-thumb, */
 .scroller::-webkit-scrollbar-thumb {
 	background-color: var(--secondary);
-	border-radius: 3px;
+	border-radius: var(--border-radius);
 }
 
 /**
