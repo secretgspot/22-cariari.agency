@@ -4,7 +4,7 @@
 	import { slide } from "svelte/transition";
 	import { supabase } from "$lib/db";
 	import { addToast } from "$lib/toasts/store";
-	import JSONDump from "$lib/JSONDump.svelte";
+	// import JSONDump from "$lib/JSONDump.svelte";
 
 	export let msl;
 	export let attachments = [];
@@ -36,7 +36,7 @@
 			// attachments = [...attachments, newFile];
 
 			await uploadFile(newFile);
-			console.log(file, newFile);
+			// console.log(file, newFile);
 		}
 	};
 
@@ -48,7 +48,7 @@
 			.from("photos")
 			.upload(`/${msl}/${target.name}`, target.file);
 		if (uploadError) {
-			console.log("upload err: ", uploadError);
+			// console.log("upload err: ", uploadError);
 			addToast({
 				message: `Failed to upload ${uploadError.message}`,
 				type: "error",
@@ -78,7 +78,7 @@
 			.from("photos")
 			.remove([`${msl}/${target}`]);
 		if (errDelete) {
-			console.log(errDelete);
+			// console.log(errDelete);
 			addToast({
 				message: `Failed to delete file ${errDelete.message}, try again in few seconds`,
 				type: "error",
@@ -108,7 +108,7 @@
 			.getPublicUrl(`${msl}/${target.name}`);
 
 		if (publicUrlData) {
-			console.log("update", target);
+			// console.log("update", target);
 			const { data: updatePhotosTableData, error: updatePhotosTableErr } =
 				await supabase
 					.from("photos")
@@ -133,12 +133,12 @@
 				// console.log("updated photos table: ", updatePhotosTableData);
 
 				attachments = [...attachments, updatePhotosTableData];
-				addToast({
-					message: `Details for ${target.name} adjusted successfully`,
-					type: "success",
-					dismissible: false,
-					timeout: 1200,
-				});
+				// addToast({
+				// 	message: `Details for ${target.name} adjusted successfully`,
+				// 	type: "success",
+				// 	dismissible: false,
+				// 	timeout: 1200,
+				// });
 			}
 		}
 

@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.property.msl}</title>
+	<title>{data.property.msl} - Cariari Agency</title>
 </svelte:head>
 
 {#if !$navigating}

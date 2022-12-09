@@ -30,6 +30,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Cariari Agency - Costa Rica Real Estate</title>
+</svelte:head>
+
 <!-- <JsonDump name="data" {data} /> -->
 
 <!-- {#if loading}

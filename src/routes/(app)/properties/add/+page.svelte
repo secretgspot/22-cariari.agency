@@ -104,6 +104,10 @@
 	const clearStorage = async () => await localStorage.clear();
 </script>
 
+<svelte:head>
+	<title>Add property - Cariari Agency</title>
+</svelte:head>
+
 {#if !$navigating}
 	<Logo type="regular" color="bw" fixed="fixed" on:click={() => goto("/")} />
 	<Nav />
@@ -573,7 +577,7 @@
 			</Button> -->
 			<Button {loading} disabled={loading}>
 				<svelte:fragment slot="icon">💾</svelte:fragment>
-				Submit Changes
+				Add Property
 			</Button>
 		</footer>
 	</form>

@@ -31,6 +31,10 @@
 	// $: console.log("previous page: ", previousPage);
 </script>
 
+<svelte:head>
+	<title>{data.property.msl} - Cariari Agency</title>
+</svelte:head>
+
 <!-- <JsonDump name="data" {data} /> -->
 {#if !$navigating}
 	<LogoSvg

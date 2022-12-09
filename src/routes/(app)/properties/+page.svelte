@@ -43,6 +43,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Properties listing - Cariari Agency</title>
+</svelte:head>
+
 {#if !$navigating}
 	<Logo type="regular" color="bw" fixed="fixed" on:click={() => goto("/")} />
 {/if}

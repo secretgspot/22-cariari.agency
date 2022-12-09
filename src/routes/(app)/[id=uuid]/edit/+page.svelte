@@ -121,6 +121,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Editing {data.property.msl} - Cariari Agency</title>
+</svelte:head>
+
 {#if !$navigating}
 	<Logo type="regular" color="bw" fixed="fixed" on:click={() => goto("/")} />
 	<Nav />

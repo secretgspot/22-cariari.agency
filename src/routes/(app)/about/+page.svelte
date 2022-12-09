@@ -7,8 +7,7 @@
 </script>
 
 <svelte:head>
-	<title>About</title>
-	<meta name="description" content="About Cariari.Agency" />
+	<title>About Cariari Agency</title>
 </svelte:head>
 
 {#if !$navigating}
