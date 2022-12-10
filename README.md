@@ -47,7 +47,6 @@ Built with:
 - [ ] present sign-up with magic link only when the user completes the form
 - [ ] map acting strange when layout changes
 - [ ] nav glitches and presents itself when shouldn't
-- [x] when GPS is entered manually it should update on the map
 - [ ] should the nav be sticky on edit/add?
 
 ## Lessons

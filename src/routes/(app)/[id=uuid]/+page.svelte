@@ -395,8 +395,10 @@
 		justify-content: space-evenly;
 	}
 	.side .side-wrapper {
+		flex: 1;
 		display: flex;
 		flex-direction: column;
+		justify-content: space-between;
 		align-items: flex-start;
 		padding: var(--padding-small);
 	}

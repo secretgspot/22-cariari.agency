@@ -44,7 +44,7 @@
 			if (!isEmpty(lan) && !isEmpty(lon) && item.is_active) {
 				marker = L.marker(new L.LatLng(+lan, +lon), {
 					property_id,
-					title: `${msl} ${property_for}`,
+					// title: `${msl} ${property_for}`, // not needed because of line 61
 					property_for,
 					// icon: L.divIcon({
 					// 	className: `icon-${createClass(property_for)}`,
@@ -57,7 +57,10 @@
 					}),
 				});
 				// if (!isEmpty(msl)) marker.bindPopup(msl);
-				if (!isEmpty(msl)) marker.on("click", onMarkerClick);
+				// if (!isEmpty(msl)) {
+				marker.bindTooltip(`${msl} - ${property_for}`).openTooltip();
+				marker.on("click", onMarkerClick);
+				// }
 				mclusters.addLayer(marker);
 			}
 		});
@@ -92,7 +95,7 @@
 
 	function onMarkerClick(e) {
 		map.setView(e.target.getLatLng(), 17);
-		console.log("🗺", e.sourceTarget.options.property_id);
+		// console.log("🗺", e.sourceTarget.options.property_id);
 		dispatch("selected", e.sourceTarget.options.property_id);
 	}
 
