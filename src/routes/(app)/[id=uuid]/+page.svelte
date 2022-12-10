@@ -2,12 +2,7 @@
 	/** @type {import('./$types').PageData} */
 	import { navigating, page } from "$app/stores";
 	import { base } from "$app/paths";
-	import {
-		goto,
-		afterNavigate,
-		beforeNavigate,
-		invalidateAll,
-	} from "$app/navigation";
+	import { goto, afterNavigate } from "$app/navigation";
 	import LogoSvg from "$lib/LogoSvg.svelte";
 	import { Button } from "$lib/buttons";
 	import Badge from "$lib/Badge.svelte";
@@ -15,9 +10,10 @@
 	import Ad from "$lib/Ad.svelte";
 	import MapStatic from "$lib/map/MapStatic.svelte";
 	import { formatter, ago } from "$lib/utils/helpers.js";
-	import { Splide, SplideSlide } from "@splidejs/svelte-splide";
-	import "@splidejs/svelte-splide/css";
-	import JsonDump from "$lib/JSONDump.svelte";
+	// import { Splide, SplideSlide } from "@splidejs/svelte-splide";
+	// import "@splidejs/svelte-splide/css";
+	// import JsonDump from "$lib/JSONDump.svelte";
+	// import { dragable } from "$lib/utils/dragable.js";
 
 	export let data;
 
@@ -350,7 +346,7 @@
 		padding-block: var(--padding-extra-small);
 		overflow-x: scroll;
 		overscroll-behavior-x: contain;
-		scroll-snap-type: x mandatory;
+		scroll-snap-type: x proximity;
 		scrollbar-width: none;
 	}
 	/* .photos:before {
@@ -395,10 +391,8 @@
 		grid-area: aside;
 		display: flex;
 		flex-direction: column;
-		/* justify-content: space-around; */
-		align-items: flex-start;
-		/* overflow-y: auto; */
-		/* background: lavender; */
+		align-items: center;
+		justify-content: space-evenly;
 	}
 	.side .side-wrapper {
 		display: flex;

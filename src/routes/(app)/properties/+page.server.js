@@ -14,7 +14,7 @@ export async function load(event) {
 
 	const getProperties = async () => {
 		const { data, error: err } = await supabaseClient.from('properties_preview')
-			.select('*');
+			.select('*').order('created_at', { ascending: false });
 		if (err) throw error(400, `💩 ${err.message}`);
 
 		return data;

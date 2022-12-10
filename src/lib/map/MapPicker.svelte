@@ -6,6 +6,11 @@
 
 	let map, baseLayer, marker, positionData;
 
+	$: if (marker && !isNaN(+position.lat) && !isNaN(+position.lng)) {
+		marker.setLatLng(position).addTo(map);
+		map.setView(position, 16);
+	}
+
 	export function updategps(e) {
 		position = {
 			lat: e.latitude,

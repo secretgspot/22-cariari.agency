@@ -139,7 +139,7 @@
 					clearStorage();
 					form.reset();
 					won = true;
-					console.log("RESULT:", result.data);
+					// console.log("RESULT:", result.data);
 					addToast({
 						message: result.data.message,
 						type: "success",
