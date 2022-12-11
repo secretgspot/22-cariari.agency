@@ -12,8 +12,8 @@
 	import Uploader from "$lib/Uploader.svelte";
 	import Checkboxes from "$lib/Checkboxes.svelte";
 	import Notify from "$lib/Notify.svelte";
-	import { confetti } from "@neoconfetti/svelte";
-	import { pad } from "$lib/utils/helpers.js";
+	// import { confetti } from "@neoconfetti/svelte";
+	import { pad, isEmpty } from "$lib/utils/helpers.js";
 	import JsonDump from "$lib/JSONDump.svelte";
 	import Login from "$lib/Login.svelte";
 
@@ -133,6 +133,7 @@
 {#if !data.logged_in}
 	<Login />
 {:else}
+	{isEmpty(data.property.property_for)}
 	<form
 		class="edit-property"
 		method="POST"
@@ -146,6 +147,13 @@
 			loading = true;
 			message = "";
 			error = "";
+
+			if (isEmpty($page.data.property.property_for)) {
+				cancel();
+				error =
+					"Must select at least one for PROPERTY FOR in Property Type section";
+				loading = false;
+			}
 
 			// prevent default callback from resetting the form
 			return async ({ result, update }) => {

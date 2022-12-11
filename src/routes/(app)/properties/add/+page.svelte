@@ -13,11 +13,12 @@
 	import Checkboxes from "$lib/Checkboxes.svelte";
 	import { confetti } from "@neoconfetti/svelte";
 	import { storable } from "$lib/utils/storable.js";
-	import { pad } from "$lib/utils/helpers.js";
+	import { pad, isEmpty } from "$lib/utils/helpers.js";
 	import JsonDump from "$lib/JSONDump.svelte";
 	import { onMount } from "svelte";
 	import { addToast } from "$lib/toasts/store";
 	import Login from "$lib/Login.svelte";
+	import Notify from "$lib/Notify.svelte";
 
 	// export let data;
 	// export let form;
@@ -131,6 +132,13 @@
 			loading = true;
 			message = "";
 			error = "";
+
+			if (isEmpty($property.property_for)) {
+				cancel();
+				error =
+					"Must select at least one for PROPERTY FOR in Property Type section";
+				loading = false;
+			}
 
 			// prevent default callback from resetting the form
 			return async ({ result, update }) => {
@@ -580,6 +588,14 @@
 				Add Property
 			</Button>
 		</footer>
+
+		<!-- NOTIFICATIONS -->
+		{#if message}
+			<Notify type="success">{message}</Notify>
+		{/if}
+		{#if error}
+			<Notify type="danger">{error}</Notify>
+		{/if}
 	</form>
 {/if}
 
