@@ -80,6 +80,7 @@
 
 		// map.on("load", console.log("map loaded")); // 🚩 why doesn't work?
 		L.control.zoom({ position: "bottomleft" }).addTo(map);
+		L.control.scale({ position: "bottomright" }).addTo(map);
 
 		map.on("resize", () => console.log("resized map"));
 
