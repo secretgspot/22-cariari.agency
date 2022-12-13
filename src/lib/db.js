@@ -4,7 +4,7 @@ import { createClient, getSupabase } from '@supabase/auth-helpers-sveltekit';
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
 import { goto, invalidateAll } from '$app/navigation';
 import { writable } from 'svelte/store';
-// import { invalid, redirect, error } from '@sveltejs/kit';
+// import { fail, redirect, error } from '@sveltejs/kit';
 
 const options = {
 	db: {

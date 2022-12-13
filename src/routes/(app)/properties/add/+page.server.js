@@ -1,7 +1,7 @@
 /** @type {import('./$types').PageServerLoad} */
 import { AuthApiError } from '@supabase/supabase-js';
 import { getSupabase } from '@supabase/auth-helpers-sveltekit';
-import { redirect, error, invalid } from '@sveltejs/kit';
+import { redirect, error, fail } from '@sveltejs/kit';
 import { isEmpty } from '$lib/utils/helpers.js';
 
 export async function load(event) {
@@ -77,13 +77,13 @@ export const actions = {
 		const { data: resData, error: resErr } = await supabaseClient.from('properties').insert(property).select().maybeSingle();
 		if (resErr) {
 			if (resErr instanceof AuthApiError && resErr.status === 400) {
-				return invalid(400, {
+				return fail(400, {
 					error: true,
 					message: `Unable to add property, ${resErr.message}`,
 					property,
 				});
 			}
-			return invalid(500, {
+			return fail(500, {
 				error: true,
 				message: `Unable to add property, ${resErr.message}`,
 				property,

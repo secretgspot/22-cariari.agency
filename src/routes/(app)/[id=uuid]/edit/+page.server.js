@@ -1,7 +1,7 @@
 /** @type {import('./$types').PageServerLoad} */
 import { AuthApiError } from '@supabase/supabase-js';
 import { getSupabase } from '@supabase/auth-helpers-sveltekit';
-import { redirect, error, invalid } from '@sveltejs/kit';
+import { redirect, error, fail } from '@sveltejs/kit';
 import { isEmpty } from '$lib/utils/helpers.js';
 
 export async function load(event) {
@@ -102,13 +102,13 @@ export const actions = {
 		const { data: resData, error: resErr } = await supabaseClient.from('properties').update(property).eq('id', property.id).select().maybeSingle();
 		if (resErr) {
 			if (resErr instanceof AuthApiError && resErr.status === 400) {
-				return invalid(400, {
+				return fail(400, {
 					error: true,
 					message: `Unable to add property, ${resErr.message}`,
 					property,
 				});
 			}
-			return invalid(500, {
+			return fail(500, {
 				error: true,
 				message: `Unable to add property, ${resErr.message}`,
 				property,
@@ -141,12 +141,12 @@ export const actions = {
 		const { error: resErr } = await supabaseClient.from('properties').delete().eq('id', property_id);
 		if (resErr) {
 			if (resErr instanceof AuthApiError && resErr.status === 400) {
-				return invalid(400, {
+				return fail(400, {
 					error: true,
 					message: `Unable to delete property, ${resErr.message}`,
 				});
 			}
-			return invalid(500, {
+			return fail(500, {
 				error: true,
 				message: `Unable to delete property, ${resErr.message}`,
 			});
@@ -181,13 +181,13 @@ export const actions = {
 		const { data: resData, error: resErr } = await supabaseClient.from('properties').update({ is_active: false }).eq('id', property_id).select().single();
 		if (resErr) {
 			if (resErr instanceof AuthApiError && resErr.status === 400) {
-				return invalid(400, {
+				return fail(400, {
 					error: true,
 					message: `Unable to delist property, ${resErr.message}`,
 					property,
 				});
 			}
-			return invalid(500, {
+			return fail(500, {
 				error: true,
 				message: `Unable to delist property, ${resErr.message}`,
 				property,

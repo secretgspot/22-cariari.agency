@@ -1,5 +1,5 @@
 /** @type {import('./$types').LayoutServerLoad} */
-import { redirect, error, invalid } from '@sveltejs/kit';
+import { redirect, error, fail } from '@sveltejs/kit';
 import { AuthApiError } from '@supabase/supabase-js';
 import { getSupabase } from '@supabase/auth-helpers-sveltekit';
 

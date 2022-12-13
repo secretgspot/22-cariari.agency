@@ -1,7 +1,7 @@
 /** @type {import('./$types').LayoutServerLoad} */
 import { AuthApiError } from '@supabase/supabase-js';
 import { getSupabase } from '@supabase/auth-helpers-sveltekit';
-import { redirect, error, invalid } from '@sveltejs/kit';
+import { redirect, error, fail } from '@sveltejs/kit';
 import { isEmpty } from '$lib/utils/helpers.js';
 
 export async function load(event) {

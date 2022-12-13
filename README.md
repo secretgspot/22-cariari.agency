@@ -48,5 +48,6 @@ Built with:
 - [ ] nav glitches and presents itself when shouldn't
 - [ ] should the nav be sticky on edit/add?
 - [ ] proper print view for the print page
+- [x] upgraded to latest svelte (invalid changed to fail)
 
 ## Lessons
