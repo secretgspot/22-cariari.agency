@@ -51,8 +51,8 @@
 					// }),
 					icon: L.icon({
 						iconUrl: `/map/${property_for}.svg`,
-						iconSize: [24, 24],
-						iconAnchor: [12, 12],
+						iconSize: [21, 21],
+						iconAnchor: [9, 9],
 						opacity: 0.5,
 					}),
 				});
