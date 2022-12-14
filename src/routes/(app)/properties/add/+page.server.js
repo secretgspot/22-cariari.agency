@@ -32,8 +32,8 @@ export const actions = {
 	// ADD PROPERTY
 	add: async (event) => {
 
-		const { request } = event;
-		const { session, supabaseClient } = await getSupabase(event);
+		const { request, locals } = event;
+		// const { session, supabaseClient } = await getSupabase(event);
 
 		// if (!session) {
 		// 	// the user is not signed in
@@ -74,7 +74,7 @@ export const actions = {
 		// console.log('/properties/add/+page.server.js action -> add: ', property);
 
 		// push it to the server
-		const { data: resData, error: resErr } = await supabaseClient.from('properties').insert(property).select().maybeSingle();
+		const { data: resData, error: resErr } = await locals.sb.from('properties').insert(property).select().maybeSingle();
 		if (resErr) {
 			if (resErr instanceof AuthApiError && resErr.status === 400) {
 				return fail(400, {
