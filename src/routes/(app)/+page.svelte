@@ -4,7 +4,7 @@
 	import { goto } from "$app/navigation";
 	import { supabase } from "$lib/db";
 	import LogoSvg from "$lib/LogoSvg.svelte";
-	// import Splash from "$lib/Splash.svelte";
+	import Splash from "$lib/Splash.svelte";
 	import Map from "$lib/map/Map.svelte";
 	import Preview from "$lib/Preview.svelte";
 	import Nav from "$lib/Nav.svelte";
@@ -36,11 +36,11 @@
 
 <!-- <JsonDump name="data" {data} /> -->
 
-<!-- {#if loading}
+{#if loading}
 	<Splash />
-{:else} -->
-
-{#if !$navigating}
+{/if}
+<!-- {:else} -->
+{#if !$navigating && !loading}
 	<LogoSvg animate={true} kind="gold" fixed="fixed" />
 {/if}
 

@@ -17,17 +17,18 @@
 
 		// NICE CLEAR ONE!
 		// http://maps.stamen.com/
+		// //stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}
 		// //stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.{ext}
 		// //stamen-tiles-{s}.a.ssl.fastly.net/toner-hybrid/{z}/{x}/{y}.{ext}
 		// //stamen-tiles-{s}.a.ssl.fastly.net/toner-lines/{z}/{x}/{y}.{ext}
 		// //stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}.{ext}
 		baseLayer = L.tileLayer(
-			"//stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}",
+			"//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.{ext}",
 			{
 				subdomains: "abcd",
 				minZoom: 15,
 				maxZoom: 18,
-				ext: "png",
+				ext: "jpg",
 			}
 		);
 
@@ -69,8 +70,8 @@
 			zoomControl: false, // Add zoom control separately below
 			center: new L.LatLng(9.970881419133026, -84.16046619415285), // Initial map center
 			maxBounds: L.latLngBounds([
-				[9.988808139332145, -84.20273780822755],
-				[9.953303756663907, -84.11862373352052],
+				[9.99443, -84.199448],
+				[9.943958, -84.128766],
 			]),
 			zoom: 16, // Initial zoom level
 			attributionControl: false, // Instead of default attribution, we add custom at the bottom of script
@@ -83,6 +84,10 @@
 		L.control.scale({ position: "bottomright" }).addTo(map);
 
 		map.on("resize", () => console.log("resized map"));
+		baseLayer.on("load", () => {
+			console.log(`🗺 loaded`);
+			dispatch("loaded", true);
+		});
 
 		// map.invalidateSize();
 	});
