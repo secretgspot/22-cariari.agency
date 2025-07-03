@@ -1,26 +1,26 @@
 <script>
-	import { goto } from "$app/navigation";
-	import { fade } from "svelte/transition";
-	import { supabase } from "$lib/db";
-	import Badge from "$lib/Badge.svelte";
-	import { Button } from "$lib/buttons";
-	import Ad from "$lib/Ad.svelte";
-	import { formatter, ago } from "$lib/utils/helpers.js";
-	import { Spinner } from "$lib/loaders";
+	import { goto } from '$app/navigation';
+	import { fade } from 'svelte/transition';
+	import { supabase } from '$lib/db';
+	import Badge from '$lib/Badge.svelte';
+	import { Button } from '$lib/buttons';
+	import Ad from '$lib/Ad.svelte';
+	import { formatter, ago } from '$lib/utils/helpers.js';
+	import { Spinner } from '$lib/loaders';
 
 	export let data;
 
 	let loading = false,
-		error = "",
-		message = "",
+		error = '',
+		message = '',
 		property = {};
 
 	$: if (data) loadDetails();
 
 	const loadDetails = async (e) => {
 		loading = true;
-		message = "";
-		error = "";
+		message = '';
+		error = '';
 		// console.log("loadPreview: ", data);
 		// const { data: propertyData, error: propertyErr } = await supabase
 		// 	.from("properties")
@@ -28,9 +28,9 @@
 		// 	.eq("id", data)
 		// 	.single();
 		const { data: propertyData, error: propertyErr } = await supabase
-			.from("properties_preview")
-			.select("*")
-			.eq("id", data)
+			.from('properties_preview')
+			.select('*')
+			.eq('id', data)
 			.single();
 		if (propertyErr) error = propertyErr.message;
 		property = propertyData;
@@ -55,15 +55,13 @@
 				src={property.photo}
 				alt={property.msl}
 				loading="eager"
-				intrinsicsize="450x360"
-			/>
+				intrinsicsize="450x360" />
 		{:else}
 			<img
 				class="image"
 				src="/placeholder/450x360.png"
 				alt="Property placeholder"
-				loading="eager"
-			/>
+				loading="eager" />
 		{/if}
 	</figure>
 
@@ -83,9 +81,7 @@
 
 			<div class="type_age">
 				{#if property.land_use}<span>{property.land_use}</span>{/if}
-				{#if property.building_style}<span
-						>&bull; {property.building_style}</span
-					>{/if}
+				{#if property.building_style}<span>&bull; {property.building_style}</span>{/if}
 				{#if property.year_built}<span
 						>&bull; {ago(new Date(property.year_built))} old</span
 					>{/if}
@@ -124,20 +120,14 @@
 
 	<div class="commercial-wrapper">
 		<Ad width="320" height="100">
-			<a href="//pintarcariari.casa" target="_blank" rel="noreferrer">
+			<a href="//25-cariaripintor.vercel.app" target="_blank" rel="noreferrer">
 				<img src="/ads/pintarcariari-300x100.jpg" alt="Pintar Cariari" />
 			</a>
 		</Ad>
 	</div>
 
 	<footer>
-		<Button
-			right
-			shadow
-			{loading}
-			disabled={loading}
-			on:click={() => goto(property.id)}
-		>
+		<Button right shadow {loading} disabled={loading} on:click={() => goto(property.id)}>
 			<svelte:fragment slot="icon">👁‍🗨</svelte:fragment>
 			Show Details
 		</Button>

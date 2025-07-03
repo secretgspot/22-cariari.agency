@@ -1,15 +1,15 @@
 <script>
 	/** @type {import('./$types').PageData} */
-	import { navigating, page } from "$app/stores";
-	import { base } from "$app/paths";
-	import { goto, afterNavigate } from "$app/navigation";
-	import LogoSvg from "$lib/LogoSvg.svelte";
-	import { Button } from "$lib/buttons";
-	import Badge from "$lib/Badge.svelte";
-	import Icon from "$lib/Icon.svelte";
-	import Ad from "$lib/Ad.svelte";
-	import MapStatic from "$lib/map/MapStatic.svelte";
-	import { formatter, ago } from "$lib/utils/helpers.js";
+	import { navigating, page } from '$app/stores';
+	import { base } from '$app/paths';
+	import { goto, afterNavigate } from '$app/navigation';
+	import LogoSvg from '$lib/LogoSvg.svelte';
+	import { Button } from '$lib/buttons';
+	import Badge from '$lib/Badge.svelte';
+	import Icon from '$lib/Icon.svelte';
+	import Ad from '$lib/Ad.svelte';
+	import MapStatic from '$lib/map/MapStatic.svelte';
+	import { formatter, ago } from '$lib/utils/helpers.js';
 	// import { Splide, SplideSlide } from "@splidejs/svelte-splide";
 	// import "@splidejs/svelte-splide/css";
 	// import JsonDump from "$lib/JSONDump.svelte";
@@ -20,7 +20,7 @@
 	let previousPage = base;
 
 	afterNavigate(({ from }) => {
-		previousPage = from?.url.pathname == undefined ? "/" : from?.url.pathname;
+		previousPage = from?.url.pathname == undefined ? '/' : from?.url.pathname;
 		// console.log("pathname page: ", from?.url.pathname);
 	});
 
@@ -38,8 +38,7 @@
 		invert={true}
 		kind="gold"
 		fixed="fixed"
-		on:click={() => goto("/")}
-	/>
+		on:click={() => goto('/')} />
 {/if}
 
 <article>
@@ -75,8 +74,7 @@
 					class="slide-image"
 					src="/placeholder/1080x810.png"
 					alt="property"
-					loading="eager"
-				/>
+					loading="eager" />
 				<!-- </SplideSlide> -->
 			{/if}
 		</div>
@@ -110,16 +108,13 @@
 							stroke="currentColor"
 							stroke-width="1.5"
 							stroke-linecap="round"
-							stroke-linejoin="round"
-						/><path
+							stroke-linejoin="round" /><path
 							d="M6.75 8.25h6a4 4 0 014 4v7"
 							stroke="currentColor"
 							stroke-width="1.5"
 							stroke-linecap="round"
-							stroke-linejoin="round"
-						/></svg
-					></svelte:fragment
-				>
+							stroke-linejoin="round" /></svg
+					></svelte:fragment>
 			</Button>
 
 			{#if !data.property.is_active}
@@ -131,17 +126,12 @@
 					<Badge
 						type="text"
 						label="built"
-						value="{new Date(
-							data.property.year_built
-						).getFullYear()} &bull; {ago(new Date(data.property.year_built))}"
-					/>
+						value="{new Date(data.property.year_built).getFullYear()} &bull; {ago(
+							new Date(data.property.year_built),
+						)}" />
 				{/if}
 				{#if data.property.building_style}
-					<Badge
-						type="text"
-						label="style"
-						value={data.property.building_style}
-					/>
+					<Badge type="text" label="style" value={data.property.building_style} />
 				{/if}
 			</div>
 
@@ -150,29 +140,22 @@
 					<Badge
 						type="text"
 						label="price"
-						value={formatter.format(data.property.price)}
-					/>
+						value={formatter.format(data.property.price)} />
 				{/if}
 				{#if data.property.rent > 0}
-					<Badge
-						type="text"
-						label="rent"
-						value={formatter.format(data.property.rent)}
-					/>
+					<Badge type="text" label="rent" value={formatter.format(data.property.rent)} />
 				{/if}
 				{#if data.property.taxes > 0}
 					<Badge
 						type="text"
 						label="taxes"
-						value={formatter.format(data.property.taxes)}
-					/>
+						value={formatter.format(data.property.taxes)} />
 				{/if}
 				{#if data.property.fees > 0}
 					<Badge
 						type="text"
 						label="condo fees"
-						value={formatter.format(data.property.fees)}
-					/>
+						value={formatter.format(data.property.fees)} />
 				{/if}
 			</div>
 
@@ -193,28 +176,16 @@
 					<Badge type="icon" label="baths" value={data.property.baths} />
 				{/if}
 				{#if data.property.half_baths > 0}
-					<Badge
-						type="icon"
-						label="half baths"
-						value={data.property.half_baths}
-					/>
+					<Badge type="icon" label="half baths" value={data.property.half_baths} />
 				{/if}
 				{#if data.property.parking_spaces > 0}
-					<Badge
-						type="icon"
-						label="parkings"
-						value={data.property.parking_spaces}
-					/>
+					<Badge type="icon" label="parkings" value={data.property.parking_spaces} />
 				{/if}
 			</div>
 
 			<div class="badge-group">
 				{#if data.property.building_size > 0}
-					<Badge
-						type="text"
-						label="building"
-						value="{data.property.building_size}㎡"
-					/>
+					<Badge type="text" label="building" value="{data.property.building_size}㎡" />
 				{/if}
 				{#if data.property.lot_size > 0}
 					<Badge type="text" label="lot" value="{data.property.lot_size}㎡" />
@@ -223,7 +194,7 @@
 
 			<div class="commercial-wrapper">
 				<Ad width="320" height="100">
-					<a href="//pintarcariari.casa" target="_blank" rel="noreferrer">
+					<a href="//25-cariaripintor.vercel.app" target="_blank" rel="noreferrer">
 						<img src="/ads/pintarcariari-300x100.jpg" alt="Pintar Cariari" />
 					</a>
 				</Ad>
@@ -278,13 +249,11 @@
 				{#if data.property.contact_email}<Badge
 						type="text"
 						label="email"
-						value={data.property.contact_email}
-					/>{/if}
+						value={data.property.contact_email} />{/if}
 				{#if data.property.contact_phone}<Badge
 						type="text"
 						label="call"
-						value={data.property.contact_phone}
-					/>{/if}
+						value={data.property.contact_phone} />{/if}
 			</div>
 		{/if}
 
@@ -293,12 +262,7 @@
 				<Badge type="text" label="type" value={data.property.land_use} />
 			{/if}
 			{#if data.property.property_for}
-				<Badge
-					type="text"
-					label="for"
-					loop={true}
-					value={data.property.property_for}
-				/>
+				<Badge type="text" label="for" loop={true} value={data.property.property_for} />
 			{/if}
 
 			<Badge type="text" label="msl" value={data.property.msl} />
@@ -312,9 +276,9 @@
 		grid-template-columns: 1fr;
 		grid-template-rows: 300px 1fr 1fr;
 		grid-template-areas:
-			"main"
-			"aside"
-			"base";
+			'main'
+			'aside'
+			'base';
 		width: 100vw;
 		height: 100vh;
 		background: var(--primary);
@@ -361,7 +325,7 @@
 		gap: var(--gap-extra-small);
 	}
 	.photos .wrap::after {
-		content: "";
+		content: '';
 		padding-inline-end: calc(var(--gap-small) / 2);
 	}
 	.slide {
@@ -491,8 +455,8 @@
 			grid-template-rows: minmax(min-content, 60vh) minmax(min-content, auto);
 			/* grid-template-rows: minmax(min-content, 30vh) minmax(max-content, 70vh); */
 			grid-template-areas:
-				"main aside"
-				"base aside";
+				'main aside'
+				'base aside';
 		}
 		article :global(.close) {
 			top: var(--padding-small);
