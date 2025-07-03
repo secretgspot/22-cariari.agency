@@ -1,12 +1,12 @@
 <script>
-	import { onMount, onDestroy } from "svelte";
+	import { onMount, onDestroy } from 'svelte';
 
 	export let position = null;
 
 	let map, baseLayer, marker, positionData;
 
 	onMount(async () => {
-		const leafletModule = await import("leaflet");
+		const leafletModule = await import('leaflet');
 		L = leafletModule.default;
 
 		// NICE CLEAR ONE!
@@ -15,17 +15,14 @@
 		// https://stamen-tiles-{s}.a.ssl.fastly.net/toner-hybrid/{z}/{x}/{y}{r}.{ext}
 		// https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lines/{z}/{x}/{y}{r}.{ext}
 		// https://stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}{r}.{ext}
-		baseLayer = L.tileLayer(
-			"//stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}",
-			{
-				subdomains: "abcd",
-				minZoom: 15,
-				maxZoom: 15,
-				ext: "png",
-			}
-		);
+		baseLayer = L.tileLayer('//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.{ext}', {
+			subdomains: 'abcd',
+			minZoom: 15,
+			maxZoom: 15,
+			ext: 'jpg',
+		});
 
-		map = L.map("map-canvas", {
+		map = L.map('map-canvas', {
 			zoomControl: false,
 			doubleClickZoom: false,
 			closePopupOnClick: false,
@@ -44,7 +41,7 @@
 
 		// L.control.zoom({ position: "topright" }).addTo(map);
 		let pickerIcon = L.icon({
-			iconUrl: "/logo/icon.png",
+			iconUrl: '/logo/icon.png',
 			iconSize: [30, 30],
 			iconAnchor: [15, 15],
 		});
